@@ -1,0 +1,3 @@
+git add src/fracSound.cpp src/fracSound.hpp src/main.cpp test/fracSoundTest.cpp 
+git commit 
+git push https://github.com/bogkra/fracSound 
