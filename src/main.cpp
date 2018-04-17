@@ -1,6 +1,8 @@
 #include <cmath>
 #include <fstream>
 #include <iostream>
+#include <stdlib.h>    
+#include <time.h>      
 #include "fracSound.hpp"
 
 using namespace std;
@@ -36,8 +38,10 @@ using namespace Config;
 void exampleSine(ofstream& file, const double maxAmplitude) {
   const double two_pi = 6.283185307179586476925286766559;
   const double hz        = samplesPerSecond;    
-  const double frequency = 261.626;  // middle C
+  const double c4Frequency = 261.626;  
+  const double frequency = c4Frequency;
   const double seconds   = 2.5;      // time
+
 
   int length = hz * seconds;  // total number of samples
   for (int i = 0; i < length; i++) {
@@ -48,13 +52,13 @@ void exampleSine(ofstream& file, const double maxAmplitude) {
   }
 }
 
-void sine(ofstream& file, const int length, const int amplitude) {
+void sine(ofstream& file, const int length, const double amplitude) {
   const double two_pi = 6.283185307179586476925286766559;
-  const double hz        = samplesPerSecond;    
+//  const double hz        = samplesPerSecond;    
   for (int i = 0; i < length; i++) {
-    double standarizedValue     = sin( two_pi * i/length / hz );
-    int value = amplitude * standarizedValue;
-    for (int j = 1; j <= 2; j++)
+    double standarizedValue     = sin( two_pi * i/length );
+    int value = 1.0 * amplitude * standarizedValue;
+    for (int j = 0; j < 2; j++)
       write_word(file, value, 2);
   }  
 }
@@ -70,8 +74,15 @@ void writeHeader(ofstream& file) {
   write_word( file, bitsPerSample, 2 );  
 }
 
+
+void init(){
+  srand (time(NULL));
+}
+
 int main() {
 //http://www.cplusplus.com/user/Duthomhas/
+  init();
+  
   ofstream file( "example.wav", ios::binary );
   writeHeader(file);
 
@@ -81,9 +92,14 @@ int main() {
   
   // Write the audio samples
 
-  const double maxAmplitude = 32760;  // "volume"
-  exampleSine(file, maxAmplitude);
- 
+  const double maxAmplitude = 32760; 
+//  exampleSine(file, maxAmplitude);
+  for (int i = 0; i<3000; i++) {
+    int amplitude = rand() % (int)maxAmplitude;
+    int length = rand() % 500;
+    sine(file, length, amplitude);
+  }
+
   // (We'll need the final file size to fix the chunk sizes above)
   size_t file_length = file.tellp();
 
