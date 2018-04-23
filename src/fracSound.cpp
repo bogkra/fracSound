@@ -9,6 +9,9 @@
 using namespace std;
 using namespace Config;
 
+Wave::Wave() {
+  samples.fill(0.0);
+}
 
 bool Wave::write(int where, double what) {
   if (where<MAX_SIZE) {
@@ -31,9 +34,11 @@ void Wave::normalize() {
 void Wave::samplesToFile(ofstream& file) {
   const double maxAmplitude = 32767;  
   normalize();  
-  for (const auto amplitude: samples)
-    for (int j = 0; j < 2; j++)
-       writeWord(file, (int)(amplitude*maxAmplitude), 2);
+  for (const auto normalizedAmplitude: samples)
+    for (int j = 0; j < numberOfChannels; j++) {
+       writeWord(file, (int)(normalizedAmplitude*maxAmplitude), 2);
+//       cout << (int)(normalizedAmplitude*maxAmplitude) << "  ";
+    }
 }
 	
 void writeHeader(ofstream& file) {
@@ -59,20 +64,21 @@ void Wave::simpleSine(const double maxAmplitude) {
   }
 }
 
-void Wave::sine(const int length, const double amplitude) {
-  for (int i = 0; i < length; i++) {
-    double standardValue     = sin( twoPi * i/length );
+void Wave::sine(const int x1, const int x2, const double amplitude) {
+  for (int i = x1; i < x2; i++) {
+    const int length = x2 - x1;
+    double standardValue     = sin( twoPi *(i-x1)/length );
     write(i, 1.0 * amplitude * standardValue);
   }  
 }
 
 void Wave::writeToSamples() {
-//  const double maxAmplitude = 32767;  
-  //  simpleSine(file, maxAmplitude);
-  for (int i = 0; i<3000; i++) {
+  int x=0;
+  for (int i = 0; i<30000; i++) {
     int amplitude = rand() * 0.0001;
     int length = rand() % 500;
-    sine(length, amplitude);
+    sine(x, x + length, amplitude);
+    x += length;
   }  
 }
 
@@ -83,7 +89,6 @@ void Wave::writeSamples(ofstream& file) {
 
 void Wave::init(ofstream& file){
   srand(time(NULL));
-  samples.fill(0.0);
   writeHeader(file);
 }
 

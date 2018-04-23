@@ -20,47 +20,34 @@ namespace LittleEndianIo {
   }
 }
 
-
 namespace Config {
   const int numberOfChannels = Channels::stereo ;  
   const int bytesPerSample = 2;
   const int bitsPerSample = 8*bytesPerSample;
   const int samplesPerSecond = 44100;
   const double twoPi = 6.283185307179586476925286766559;
-  const int MAX_SIZE = 0.1*samplesPerSecond;
-  const double verySmall = 0.0000000000001;
-
+  const int MAX_SIZE = 10*samplesPerSecond;
+  const double verySmall = 0.000000000000001;
 }
-
-
 
 class Wave {
 public: 
+  Wave();
   bool write(int where, double what);
   void normalize();
   void samplesToFile(std::ofstream& file);
   void simpleSine(const double maxAmplitude);
-  void sine(const int length, const double amplitude);
+  void sine(const int x1, const int x2, const double amplitude);
   void writeSamples(std::ofstream& file);
   void init(std::ofstream& file);
   void writeToSamples();
 
-  std::array<double, Config::MAX_SIZE> samples;
-
+  std::array<double, Config::MAX_SIZE> samples;  
+//  std::array<double, Config::MAX_SIZE>& getArray() const;
 private:
   int sampleIndex = 0;  
 };
 
 using namespace LittleEndianIo;
-
-
-
-
-
-
-void simpleSine(const double maxAmplitude);
-void sine(const int length, const double amplitude);
-void writeToWave();
-
 
 void doIt();
