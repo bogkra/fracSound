@@ -4,16 +4,17 @@
 #include <stdlib.h>    
 #include <time.h>      
 #include <array>      
-#include "fracSound.hpp"
+#include "Wave.hpp"
 
 using namespace std;
+using namespace LittleEndianIo;
 using namespace Config;
 
 Wave::Wave() {
   samples.fill(0.0);
 }
 
-bool Wave::write(int where, double what) {
+bool Wave::write(const int where, const double& what) {
   if (where<MAX_SIZE) {
     samples.at(where) += what;
     sampleIndex = max(sampleIndex, where);
@@ -31,17 +32,17 @@ void Wave::normalize() {
       amplitude /= maxAmplitude;
 }
 
-void Wave::samplesToFile(ofstream& file) {
+void WaveFile::samplesToFile(Wave& wave) {
   const double maxAmplitude = 32767;  
-  normalize();  
-  for (const auto normalizedAmplitude: samples)
-    for (int j = 0; j < numberOfChannels; j++) {
+  wave.normalize();  
+  for (const auto normalizedAmplitude: wave.samples)
+    for (auto position : positions) {
        writeWord(file, (int)(normalizedAmplitude*maxAmplitude), 2);
-//       cout << (int)(normalizedAmplitude*maxAmplitude) << "  ";
+       (void)position;
     }
 }
 	
-void writeHeader(ofstream& file) {
+void WaveFile::writeHeader() {
   file << "RIFF----WAVEfmt ";     // (chunk size to be filled in later)
   writeWord( file,     16, 4 );  // no extension data
   writeWord( file,      1, 2 );  // PCM - integer samples
@@ -73,8 +74,8 @@ void Wave::sine(const int x1, const int x2, const double amplitude) {
 }
 
 void Wave::writeToSamples() {
-  int x=0;
-  for (int i = 0; i<30000; i++) {
+  int x = 0;
+  for (int i = 0; i<3000; i++) {
     int amplitude = rand() * 0.0001;
     int length = rand() % 500;
     sine(x, x + length, amplitude);
@@ -82,36 +83,16 @@ void Wave::writeToSamples() {
   }  
 }
 
-void Wave::writeSamples(ofstream& file) {
-  writeToSamples();
-  samplesToFile(file);
+void WaveFile::writeSamples(Wave& wave) {
+  wave.writeToSamples();
+  samplesToFile(wave);
 }
 
-void Wave::init(ofstream& file){
+WaveFile::WaveFile(const std::string& fileName){    
+  file.open(fileName, ios::binary);
   srand(time(NULL));
-  writeHeader(file);
+  writeHeader();
 }
 
-void doIt() {
-  Wave samples;
-  ofstream file( "example.wav", ios::binary );
-  samples.init(file);
-  // Write the data chunk header
-  size_t dataChunkPos = file.tellp();
-  file << "data----";  // (chunk size to be filled in later)
-  
-  samples.writeSamples(file);
-  samples.samplesToFile(file);
-
-  size_t positionAfterData = file.tellp();
-
-  // Fix the data chunk header to contain the data size
-  file.seekp( dataChunkPos + 4 );
-  writeWord( file, positionAfterData - dataChunkPos + 8 );
-
-  // Fix the file header to contain the proper RIFF chunk size, which is (file size - 8) bytes
-  file.seekp( 0 + 4 );
-  writeWord( file, positionAfterData - 8, 4 ); 
-}
 
 

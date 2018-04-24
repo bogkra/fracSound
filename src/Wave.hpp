@@ -4,12 +4,18 @@
 #include <iostream>
 #include <stdlib.h>    
 #include <array>
+#include <vector>
 
 namespace Channels {
   const int mono = 1;
   const int stereo = 2;
   const int surround = 5 + 1 ;
 }
+
+enum Position {
+  leftPos,
+  rightPos
+};
 
 namespace LittleEndianIo {
   template <typename Word>
@@ -26,28 +32,33 @@ namespace Config {
   const int bitsPerSample = 8*bytesPerSample;
   const int samplesPerSecond = 44100;
   const double twoPi = 6.283185307179586476925286766559;
-  const int MAX_SIZE = 10*samplesPerSecond;
-  const double verySmall = 0.000000000000001;
+  const int MAX_SIZE = 5*samplesPerSecond;
+  const double verySmall = 1E-15;
+  const std::vector<Position> positions = {Position::leftPos, Position::rightPos};
 }
+
 
 class Wave {
 public: 
   Wave();
-  bool write(int where, double what);
+  bool write(const int where, const double& what);
+  void writeToSamples();
   void normalize();
-  void samplesToFile(std::ofstream& file);
   void simpleSine(const double maxAmplitude);
   void sine(const int x1, const int x2, const double amplitude);
-  void writeSamples(std::ofstream& file);
-  void init(std::ofstream& file);
-  void writeToSamples();
-
   std::array<double, Config::MAX_SIZE> samples;  
-//  std::array<double, Config::MAX_SIZE>& getArray() const;
 private:
   int sampleIndex = 0;  
 };
 
-using namespace LittleEndianIo;
+class WaveFile {
+public:
+  WaveFile(const std::string& fileName);    
+  void writeHeader();
+  void samplesToFile(Wave& wave);
+  void writeSamples(Wave& wave);
+  std::ofstream file;
+private:
+};
 
 void doIt();

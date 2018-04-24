@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "fracSound.hpp"
+#include "Wave.hpp"
 
 using namespace std;
 
@@ -10,7 +10,7 @@ public:
 
 
 
-TEST_F(fracSoundTest, zero)
+TEST_F(fracSoundTest, sine)
 {
   double small = 0.0000001;
   Wave wave;
