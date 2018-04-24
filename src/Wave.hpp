@@ -1,8 +1,5 @@
 #pragma once
 
-#include <fstream>
-#include <iostream>
-#include <stdlib.h>    
 #include <array>
 #include <vector>
 
@@ -17,22 +14,14 @@ enum Position {
   rightPos
 };
 
-namespace LittleEndianIo {
-  template <typename Word>
-  std::ostream& writeWord( std::ostream& outs, Word value, unsigned size = sizeof( Word ) ) {
-    for (; size; --size, value >>= 8)
-      outs.put( static_cast <char> (value & 0xFF) );
-    return outs;
-  }
-}
 
 namespace Config {
   const int numberOfChannels = Channels::stereo ;  
   const int bytesPerSample = 2;
-  const int bitsPerSample = 8*bytesPerSample;
+  const int bitsPerSample = 8 * bytesPerSample;
   const int samplesPerSecond = 44100;
   const double twoPi = 6.283185307179586476925286766559;
-  const int MAX_SIZE = 5*samplesPerSecond;
+  const int MAX_SIZE = 8 * samplesPerSecond;
   const double verySmall = 1E-15;
   const std::vector<Position> positions = {Position::leftPos, Position::rightPos};
 }
@@ -51,14 +40,5 @@ private:
   int sampleIndex = 0;  
 };
 
-class WaveFile {
-public:
-  WaveFile(const std::string& fileName);    
-  void writeHeader();
-  void samplesToFile(Wave& wave);
-  void writeSamples(Wave& wave);
-  std::ofstream file;
-private:
-};
 
-void doIt();
+

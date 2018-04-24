@@ -1,16 +1,15 @@
 #include "WaveFile.hpp"
 
 void doIt() {
-//  samples = new(Wave);
-  Wave wave;
-
+  Wave* pWave = new(Wave);
+//  Wave wave;
 
   WaveFile waveFile("example.wav");
   // Write the data chunk header
   size_t dataChunkPos = waveFile.file.tellp();
   waveFile.file << "data----";  // (chunk size to be filled in later)
   
-  waveFile.writeSamples(wave);
+  waveFile.writeSamples(*pWave);
 
   size_t positionAfterData = waveFile.file.tellp();
 
@@ -21,8 +20,9 @@ void doIt() {
   // Fix the file header to contain the proper RIFF chunk size, which is (file size - 8) bytes
   waveFile.file.seekp( 0 + 4 );
   LittleEndianIo::writeWord( waveFile.file, positionAfterData - 8, 4 ); 
-}
 
+  delete(pWave);
+}
 
 int main() {
   doIt();

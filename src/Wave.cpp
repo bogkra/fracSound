@@ -1,13 +1,7 @@
 #include <cmath>
-#include <fstream>
-#include <iostream>
-#include <stdlib.h>    
-#include <time.h>      
-#include <array>      
 #include "Wave.hpp"
 
 using namespace std;
-using namespace LittleEndianIo;
 using namespace Config;
 
 Wave::Wave() {
@@ -31,28 +25,6 @@ void Wave::normalize() {
     for (auto& amplitude: samples) 	
       amplitude /= maxAmplitude;
 }
-
-void WaveFile::samplesToFile(Wave& wave) {
-  const double maxAmplitude = 32767;  
-  wave.normalize();  
-  for (const auto normalizedAmplitude: wave.samples)
-    for (auto position : positions) {
-       writeWord(file, (int)(normalizedAmplitude*maxAmplitude), 2);
-       (void)position;
-    }
-}
-	
-void WaveFile::writeHeader() {
-  file << "RIFF----WAVEfmt ";     // (chunk size to be filled in later)
-  writeWord( file,     16, 4 );  // no extension data
-  writeWord( file,      1, 2 );  // PCM - integer samples
-  writeWord( file, numberOfChannels, 2 );  
-  writeWord( file, samplesPerSecond, 4 );  
-  writeWord( file, samplesPerSecond * bytesPerSample * numberOfChannels, 4 );  
-  writeWord( file, numberOfChannels * bytesPerSample, 2 );  // data block size 
-  writeWord( file, bitsPerSample, 2 );  
-}
-
 
 void Wave::simpleSine(const double maxAmplitude) {
   const double c4Frequency = 261.626;  
@@ -82,17 +54,5 @@ void Wave::writeToSamples() {
     x += length;
   }  
 }
-
-void WaveFile::writeSamples(Wave& wave) {
-  wave.writeToSamples();
-  samplesToFile(wave);
-}
-
-WaveFile::WaveFile(const std::string& fileName){    
-  file.open(fileName, ios::binary);
-  srand(time(NULL));
-  writeHeader();
-}
-
 
 
