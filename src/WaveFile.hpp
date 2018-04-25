@@ -23,9 +23,10 @@ private:
   void writeDataBlockSize();
   void samplesToFile(Wave& wave);
   void writeSamples(Wave& wave);
-  std::ofstream& getFile() {return file;}; 
   void writeHeader();
-
+  void writeDataChunkHeader();
+  void fixDataChunkHeader(const size_t dataChunkPos, const size_t positionAfterData);
+  void fixFileHeader(const size_t positionAfterData);
   std::ofstream file;
 };
 

@@ -45,26 +45,32 @@ void WaveFile::writeSamples(Wave& wave) {
   samplesToFile(wave);
 }
 
+void WaveFile::writeDataChunkHeader() {
+  file << "data----";  
+}
+
+void WaveFile::fixDataChunkHeader(const size_t dataChunkPos, const size_t positionAfterData) {
+  file.seekp(dataChunkPos + 4 );
+  size_t size = positionAfterData - dataChunkPos;
+  writeWord(file, size + 8 );
+}
+
+void WaveFile::fixFileHeader(const size_t positionAfterData) {
+  file.seekp( 0 + 4 );
+  writeToFile(positionAfterData - 8, 4 ); 
+}	
+
 WaveFile::WaveFile(const std::string& fileName, Wave* pWave){    
   file.open(fileName, ios::binary);
-  srand(time(NULL));
   writeHeader();
 
-  // Write the data chunk header
   size_t dataChunkPos = file.tellp();
-  getFile() << "data----";  // (chunk size to be filled in later)
-  
+  writeDataChunkHeader(); 
   writeSamples(*pWave);
-
   size_t positionAfterData = file.tellp();
+  fixDataChunkHeader(dataChunkPos, positionAfterData);
 
-  // Fix the data chunk header to contain the data size
-  getFile().seekp(dataChunkPos + 4 );
-  writeWord(file, positionAfterData - dataChunkPos + 8 );
-
-  // Fix the file header to contain the proper RIFF chunk size, which is (file size - 8) bytes
-  getFile().seekp( 0 + 4 );
-  writeToFile(positionAfterData - 8, 4 ); 
+  fixFileHeader(positionAfterData);
 }
 
 

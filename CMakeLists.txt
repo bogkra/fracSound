@@ -41,7 +41,9 @@ project(fracSound)
 
 set(SRC_LIST
     src/main.cpp
-    src/fracSound.cpp
+    src/Wave.cpp
+    src/Box.cpp
+    src/WaveFile.cpp
 )
 
 include_directories(src)

@@ -2,8 +2,6 @@
 
 #include <array>
 #include <vector>
-#include "Box.hpp"
-
 
 namespace Channels {
   const int mono = 1;
@@ -28,13 +26,28 @@ namespace Config {
   const std::vector<Position> positions = {Position::leftPos, Position::rightPos};
 }
 
+
+class Box {
+public:
+  Box(const double x1, const double x2, const double y1, const double y2);
+  double getX1() const {return x1_;};
+  double getX2() const {return x2_;};
+  double getY1() const {return y1_;};
+  double getY2() const {return y2_;};
+private:
+  const double x1_;  
+  const double x2_;  
+  const double y1_;  
+  const double y2_;  
+};
+
+
 class Wave {
 public: 
   Wave();
   void normalize();
   void writeToSamples();
   void simpleSine(const double maxAmplitude);
-  void line(const Box& box);
   void sine(const int x1, const int x2, const double amplitude);
 
   std::array<double, Config::MAX_SIZE> samples;  
