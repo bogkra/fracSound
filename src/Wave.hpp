@@ -21,7 +21,7 @@ namespace Config {
   const int bitsPerSample = 8 * bytesPerSample;
   const int samplesPerSecond = 44100;
   const double twoPi = 6.283185307179586476925286766559;
-  const int MAX_SIZE = 8 * samplesPerSecond;
+  const int MAX_SIZE = 20 * samplesPerSecond;
   const double verySmall = 1E-15;
   const std::vector<Position> positions = {Position::leftPos, Position::rightPos};
 }
@@ -30,13 +30,14 @@ namespace Config {
 class Wave {
 public: 
   Wave();
-  bool write(const int where, const double& what);
-  void writeToSamples();
   void normalize();
+  void writeToSamples();
   void simpleSine(const double maxAmplitude);
   void sine(const int x1, const int x2, const double amplitude);
+
   std::array<double, Config::MAX_SIZE> samples;  
 private:
+  bool write(const int where, const double& what);
   int sampleIndex = 0;  
 };
 

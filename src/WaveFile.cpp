@@ -14,16 +14,29 @@ void WaveFile::samplesToFile(Wave& wave) {
        (void)position;
     }
 }
+
+
+void WaveFile::writeToFile(const int value, const unsigned size) {
+  writeWord(file, value, size);
+}
+
+void WaveFile::writeBytesPerSecond() {
+  writeToFile(samplesPerSecond * bytesPerSample * numberOfChannels, 4 );  
+}
+
+void WaveFile::writeDataBlockSize() {
+  writeToFile(bytesPerSample * numberOfChannels, 2 );  
+}
 	
 void WaveFile::writeHeader() {
   file << "RIFF----WAVEfmt ";     // (chunk size to be filled in later)
-  writeWord( file,     16, 4 );  // no extension data
-  writeWord( file,      1, 2 );  // PCM - integer samples
-  writeWord( file, numberOfChannels, 2 );  
-  writeWord( file, samplesPerSecond, 4 );  
-  writeWord( file, samplesPerSecond * bytesPerSample * numberOfChannels, 4 );  
-  writeWord( file, numberOfChannels * bytesPerSample, 2 );  // data block size 
-  writeWord( file, bitsPerSample, 2 );  
+  writeToFile(16, 4 );  // no extension data
+  writeToFile(1, 2 );  // PCM - integer samples
+  writeToFile(numberOfChannels, 2 );  
+  writeToFile(samplesPerSecond, 4 );  
+  writeBytesPerSecond(); 
+  writeDataBlockSize(); 
+  writeToFile(bitsPerSample, 2 );  
 }
 
 
@@ -32,10 +45,26 @@ void WaveFile::writeSamples(Wave& wave) {
   samplesToFile(wave);
 }
 
-WaveFile::WaveFile(const std::string& fileName){    
+WaveFile::WaveFile(const std::string& fileName, Wave* pWave){    
   file.open(fileName, ios::binary);
   srand(time(NULL));
   writeHeader();
+
+  // Write the data chunk header
+  size_t dataChunkPos = file.tellp();
+  getFile() << "data----";  // (chunk size to be filled in later)
+  
+  writeSamples(*pWave);
+
+  size_t positionAfterData = file.tellp();
+
+  // Fix the data chunk header to contain the data size
+  getFile().seekp(dataChunkPos + 4 );
+  writeWord(file, positionAfterData - dataChunkPos + 8 );
+
+  // Fix the file header to contain the proper RIFF chunk size, which is (file size - 8) bytes
+  getFile().seekp( 0 + 4 );
+  writeToFile(positionAfterData - 8, 4 ); 
 }
 
 

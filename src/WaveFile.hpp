@@ -15,12 +15,18 @@ namespace LittleEndianIo {
 
 class WaveFile {
 public:
-  WaveFile(const std::string& fileName);    
-  void writeHeader();
+  WaveFile(const std::string& fileName, Wave* pWave);    
+ 
+private:
+  void writeToFile(const int value, const unsigned size);
+  void writeBytesPerSecond();
+  void writeDataBlockSize();
   void samplesToFile(Wave& wave);
   void writeSamples(Wave& wave);
+  std::ofstream& getFile() {return file;}; 
+  void writeHeader();
+
   std::ofstream file;
-private:
 };
 
 void doIt();
