@@ -20,6 +20,19 @@ void WaveFile::writeToFile(const int value, const unsigned size) {
   writeWord(file, value, size);
 }
 
+void WaveFile::writeEmptyChunkSize() {
+  file << "RIFF----WAVEfmt "; 
+}
+
+void WaveFile::writeNoExtensionData() {
+  writeToFile(16, 4 );  
+}
+
+void WaveFile::writePsmIntegerSamples() {
+  writeToFile(1, 2 );  
+}
+
+
 void WaveFile::writeBytesPerSecond() {
   writeToFile(samplesPerSecond * bytesPerSample * numberOfChannels, 4 );  
 }
@@ -29,9 +42,9 @@ void WaveFile::writeDataBlockSize() {
 }
 	
 void WaveFile::writeHeader() {
-  file << "RIFF----WAVEfmt ";     // (chunk size to be filled in later)
-  writeToFile(16, 4 );  // no extension data
-  writeToFile(1, 2 );  // PCM - integer samples
+  writeEmptyChunkSize();
+  writeNoExtensionData();
+  writePsmIntegerSamples();
   writeToFile(numberOfChannels, 2 );  
   writeToFile(samplesPerSecond, 4 );  
   writeBytesPerSecond(); 

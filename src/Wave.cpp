@@ -48,11 +48,11 @@ void Wave::sine(const int x1, const int x2, const double amplitude) {
 
 void Wave::line(const Box& box) {
   for ( int i = box.getX1();  
-        box.isForward() ? i < box.getX2() : i > box.getX2();
+        i !=  (int)box.getX2();
         box.isForward() ? i++ : i-- ) {
-    int tempWidth = i - box.getX1();
-    samples.at(i) += box.getY1() + box.height() * tempWidth / box.width();
-  }
+          int tempWidth = i - box.getX1();
+          samples.at(i) += box.getY1() + box.height() * tempWidth / box.width();
+        }
 }
 
 void Wave::writeToSamples() {

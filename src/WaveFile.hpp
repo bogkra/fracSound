@@ -24,6 +24,9 @@ private:
   void samplesToFile(Wave& wave);
   void writeSamples(Wave& wave);
   void writeHeader();
+  void writeEmptyChunkSize();
+  void writeNoExtensionData();
+  void writePsmIntegerSamples();
   void writeDataChunkHeader();
   void fixDataChunkHeader(const size_t dataChunkPos, const size_t positionAfterData);
   void fixFileHeader(const size_t positionAfterData);
