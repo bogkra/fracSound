@@ -39,7 +39,7 @@ TEST_F(fracSoundTest, twoSines)
   wave.sine(box1);
 
   Range xs2(100, 200);
-  Box box2(xs1, ys);
+  Box box2(xs2, ys);
   wave.sine(box2);
 
   wave.normalize();
