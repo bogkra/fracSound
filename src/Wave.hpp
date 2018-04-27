@@ -23,7 +23,7 @@ namespace Config {
   const int bitsPerSample = 8 * bytesPerSample;
   const int samplesPerSecond = 44100;
   const double twoPi = 6.283185307179586476925286766559;
-  const int MAX_SIZE = 20 * samplesPerSecond;
+  const int MAX_NO_SAMPLES = 1 * samplesPerSecond;
   const double verySmall = 1E-15;
   const std::vector<Position> positions = {Position::leftPos, Position::rightPos};
 }
@@ -35,12 +35,11 @@ public:
   void writeToSamples();
   void simpleSine(const double maxAmplitude);
   void line(const Box& box);
-  void sine(const int x1, const int x2, const double amplitude);
+  void sine(const Box& box);
 
-  std::array<double, Config::MAX_SIZE> samples;  
+  std::array<double, Config::MAX_NO_SAMPLES> samples;  
 private:
   bool write(const int where, const double& what);
-  int sampleIndex = 0;  
 };
 
 

@@ -1,19 +1,16 @@
 #include "Box.hpp"
 
-Box::Box(const double x1, const double x2, const double y1, const double y2) {
-  x1_ = x1;
-  x2_ = x2;
-  y1_ = y1;
-  y2_ = y2;
+Box::Box(const Range xRange, const Range yRange) {
+  xRange_ = xRange;
+  yRange_ = yRange;
 }
 
-
 double Box::width() const {
-  return x2_ - x1_;
+  return xRange_.length();
 }
 
 double Box::height() const {
-  return y2_ - y1_;
+  return yRange_.length();
 }
 
 bool Box::isForward() const {

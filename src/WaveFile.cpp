@@ -1,9 +1,9 @@
 #include "WaveFile.hpp"
+#include <iostream>
 
 using namespace std;
 using namespace LittleEndianIo;
 using namespace Config;
-
 
 void WaveFile::samplesToFile(Wave& wave) {
   const double maxAmplitude = 32767;  
@@ -71,9 +71,10 @@ void WaveFile::fixDataChunkHeader(const size_t dataChunkPos, const size_t positi
 void WaveFile::fixFileHeader(const size_t positionAfterData) {
   file.seekp( 0 + 4 );
   writeToFile(positionAfterData - 8, 4 ); 
+  file.close();
 }	
 
-WaveFile::WaveFile(const std::string& fileName, Wave* pWave){    
+WaveFile::WaveFile(const std::string& fileName, Wave* pWave) {    
   file.open(fileName, ios::binary);
   writeHeader();
 

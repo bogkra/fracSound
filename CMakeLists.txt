@@ -42,6 +42,7 @@ project(fracSound)
 set(SRC_LIST
     src/main.cpp
     src/Wave.cpp
+    src/Range.cpp
     src/Box.cpp
     src/WaveFile.cpp
 )
