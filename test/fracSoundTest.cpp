@@ -21,10 +21,10 @@ TEST_F(fracSoundTest, sine)
   wave.sine(box);
 
   wave.normalize();
-  ASSERT_EQ(wave.samples[0], 0.0);
-  ASSERT_TRUE(abs(wave.samples[25] - 1.0) < small);
-  ASSERT_TRUE(abs(wave.samples[50] - 0.0) < small);
-  ASSERT_TRUE(abs(wave.samples[75] + 1.0) < small);
+  ASSERT_EQ(wave.getSamples()[0], 0.0);
+  ASSERT_TRUE(abs(wave.getSamples()[25] - 1.0) < small);
+  ASSERT_TRUE(abs(wave.getSamples()[50] - 0.0) < small);
+  ASSERT_TRUE(abs(wave.getSamples()[75] + 1.0) < small);
   delete(pWave);
 }
 
@@ -43,14 +43,14 @@ TEST_F(fracSoundTest, twoSines)
   wave.sine(box2);
 
   wave.normalize();
-  ASSERT_EQ(wave.samples[0], 0.0);
-  ASSERT_TRUE(abs(wave.samples[25] - 1.0) < small);
-  ASSERT_TRUE(abs(wave.samples[50]      ) < small);
-  ASSERT_TRUE(abs(wave.samples[75] + 1.0) < small);
-  ASSERT_TRUE(abs(wave.samples[100]      ) < small);
-  ASSERT_TRUE(abs(wave.samples[125] - 1.0) < small);
-  ASSERT_TRUE(abs(wave.samples[150]      ) < small);
-  ASSERT_TRUE(abs(wave.samples[175] + 1.0) < small);
+  ASSERT_EQ(wave.getSamples()[0], 0.0);
+  ASSERT_TRUE(abs(wave.getSamples()[25] - 1.0) < small);
+  ASSERT_TRUE(abs(wave.getSamples()[50]      ) < small);
+  ASSERT_TRUE(abs(wave.getSamples()[75] + 1.0) < small);
+  ASSERT_TRUE(abs(wave.getSamples()[100]      ) < small);
+  ASSERT_TRUE(abs(wave.getSamples()[125] - 1.0) < small);
+  ASSERT_TRUE(abs(wave.getSamples()[150]      ) < small);
+  ASSERT_TRUE(abs(wave.getSamples()[175] + 1.0) < small);
   delete(pWave);
 }
 

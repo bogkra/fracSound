@@ -1,5 +1,5 @@
 #include "WaveFile.hpp"
-#include <iostream>
+//#include <iostream>
 
 using namespace std;
 using namespace LittleEndianIo;
@@ -8,7 +8,7 @@ using namespace Config;
 void WaveFile::samplesToFile(Wave& wave) {
   const double maxAmplitude = 32767;  
   wave.normalize();  
-  for (const auto normalizedAmplitude: wave.samples)
+  for (const auto normalizedAmplitude: wave.getSamples())
     for (auto position : positions) {
        writeWord(file, (int)(normalizedAmplitude*maxAmplitude), 2);
        (void)position;
@@ -52,12 +52,6 @@ void WaveFile::writeHeader() {
   writeToFile(bitsPerSample, 2 );  
 }
 
-
-void WaveFile::writeSamples(Wave& wave) {
-  wave.writeToSamples();
-  samplesToFile(wave);
-}
-
 void WaveFile::writeDataChunkHeader() {
   file << "data----";  
 }
@@ -75,15 +69,17 @@ void WaveFile::fixFileHeader(const size_t positionAfterData) {
 }	
 
 WaveFile::WaveFile(const std::string& fileName, Wave* pWave) {    
+  pWave->writeToSamples();
+
   file.open(fileName, ios::binary);
   writeHeader();
-
   size_t dataChunkPos = file.tellp();
   writeDataChunkHeader(); 
-  writeSamples(*pWave);
+
+  samplesToFile(*pWave);
+
   size_t positionAfterData = file.tellp();
   fixDataChunkHeader(dataChunkPos, positionAfterData);
-
   fixFileHeader(positionAfterData);
 }
 

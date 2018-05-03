@@ -22,7 +22,6 @@ private:
   void writeBytesPerSecond();
   void writeDataBlockSize();
   void samplesToFile(Wave& wave);
-  void writeSamples(Wave& wave);
   void writeHeader();
   void writeEmptyChunkSize();
   void writeNoExtensionData();
