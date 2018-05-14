@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 #include "Wave.hpp"
+#include "../../common/Incrementator.hpp"
 
 using namespace std;
 
@@ -52,5 +53,15 @@ TEST_F(fracSoundTest, twoSines)
   ASSERT_TRUE(abs(wave.getSamples()[150]      ) < small);
   ASSERT_TRUE(abs(wave.getSamples()[175] + 1.0) < small);
   delete(pWave);
+
+}
+
+TEST_F(fracSoundTest, incrementatorTest)
+{
+  int x = 0;
+  for (Incrementator i; i.times(10);) 
+      x +=3;
+  ASSERT_EQ(x, 30);
+
 }
 

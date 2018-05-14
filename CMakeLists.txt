@@ -46,6 +46,7 @@ set(SRC_LIST
     src/Box.cpp
     src/WaveFile.cpp
     src/Fractal.cpp
+    src/Incrementator.cpp
 )
 
 include_directories(src)

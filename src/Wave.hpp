@@ -2,6 +2,7 @@
 
 #include <array>
 #include <vector>
+#include <cmath>
 #include "Box.hpp"
 
 
@@ -22,7 +23,7 @@ namespace Config {
   const int bytesPerSample = 2;
   const int bitsPerSample = 8 * bytesPerSample;
   const int samplesPerSecond = 44100;
-  const double twoPi = 6.283185307179586476925286766559;
+  constexpr double pi = acos(-1);
   const int MAX_NO_SAMPLES = 22 * samplesPerSecond;
   const double verySmall = 1E-15;
   const std::vector<Position> positions = {Position::leftPos, Position::rightPos};
