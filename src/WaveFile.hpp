@@ -18,6 +18,8 @@ public:
   WaveFile(const std::string& fileName, Wave* pWave);    
  
 private:
+  std::ofstream file;
+
   void writeToFile(const int value, const unsigned size);
   void writeBytesPerSecond();
   void writeDataBlockSize();
@@ -29,7 +31,6 @@ private:
   void writeDataChunkHeader();
   void fixDataChunkHeader(const size_t dataChunkPos, const size_t positionAfterData);
   void fixFileHeader(const size_t positionAfterData);
-  std::ofstream file;
 };
 
 void doIt();

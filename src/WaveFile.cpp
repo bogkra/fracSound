@@ -1,5 +1,4 @@
 #include "WaveFile.hpp"
-//#include <iostream>
 
 using namespace std;
 using namespace LittleEndianIo;

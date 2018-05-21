@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 #include "Wave.hpp"
-#include "../../common/Incrementator.hpp"
+#include "Incrementator.hpp"
 
 using namespace std;
 
@@ -59,9 +59,28 @@ TEST_F(fracSoundTest, twoSines)
 TEST_F(fracSoundTest, incrementatorTest)
 {
   int x = 0;
-  for (Incrementator i; i.times(10);) 
+  for (Incrementator i; i.repeat(10);) 
       x +=3;
   ASSERT_EQ(x, 30);
 
 }
 
+TEST_F(fracSoundTest, repeatTest)
+{
+  int x = 0;
+  for (Incrementator i; i.repeat(10);)
+      x += 3;
+  ASSERT_EQ(x, 30);
+
+  x = 0;
+  for (Incrementator i; i.repeat(10);)
+    for (Incrementator j; j.repeat(10);)
+      x += 3;
+  ASSERT_EQ(x, 300);
+
+  Incrementator i; 
+  i++;
+  i=i;
+  ASSERT_EQ(i, 1);  
+
+}

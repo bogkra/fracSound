@@ -12,7 +12,7 @@ Wave::Wave() {
 
 void Wave::writeToSamples() {
   int x = 0;
-  for (Incrementator i; i.times(30000);) {
+  30000 * [&] {
     int amplitude = (rand() % 1000000) * 0.0001;
     int length = rand() % 500;
     Range xs(x, x+length);
@@ -20,14 +20,14 @@ void Wave::writeToSamples() {
     Box box(xs, ys);
     sine(box);
     x += length;
-  }  
+  }; 
 }
 
 void Wave::sine(const Box& box) {
-  for (int i = 0; i < box.width(); i++) {
+  box.width() * [&] (int i)  {
     double standardValue = sin( 2.0 * pi * i / box.width() );
     write(box.getXRange().getBegin() + i, box.getYRange().getBegin() + box.height() * standardValue);
-  }  
+  };
 }
 
 void Wave::line(const Box& box) {
@@ -43,10 +43,10 @@ void Wave::simpleSine(const double maxAmplitude) {
   const double c4Frequency = 261.626;  
   const double seconds   = 2.5; 
   int numberOfSamples = seconds * samplesPerSecond;  
-  for (int i = 0; i < numberOfSamples; i++) {
+  numberOfSamples * [&](int i) {
     double value = sin( 2.0 * pi * i * c4Frequency / samplesPerSecond );
     write(i, maxAmplitude * value);
-  }
+  };
 }
 
 bool Wave::write(const int where, const double& what) {
