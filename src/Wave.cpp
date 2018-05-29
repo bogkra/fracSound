@@ -1,6 +1,7 @@
 #include <cmath>
 #include "Wave.hpp"
 #include "Incrementator.hpp"
+#include "Accumulator.hpp"
 
 using namespace std;
 using namespace Config;

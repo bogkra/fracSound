@@ -1,15 +1,5 @@
 #include "Accumulator.hpp"
 
-Accumulator& Accumulator::operator++ () { 
-  value_++; 
-  return *this;
-}
-
-Accumulator Accumulator::operator++ (int) { 
-  value_++; 
-  return *this;
-}
-
 Accumulator Accumulator::operator+= (int i) { 
   value_ += i; 
   return *this;

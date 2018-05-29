@@ -1,13 +1,8 @@
 #pragma once
+#include "Incrementator.hpp"
 
-
-class Accumulator 
-{
+class Accumulator : Incrementator {
 public:
-  Accumulator() : value_(0) {};
-
-  Accumulator& operator++ ();
-  Accumulator operator++ (int);
   Accumulator operator+= (int i);
   Accumulator operator+= (Accumulator a);
   Accumulator operator=  (int  i);
@@ -18,11 +13,7 @@ public:
   };
   bool operator== (const int & i);
   bool operator< (const int & i);
-//  int& operator& ();
   int getValue() const {return value_;};
-
-private:
-  int value_;
 };
 
 
