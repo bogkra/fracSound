@@ -11,6 +11,14 @@ Wave::Wave() {
   samples_.fill(0.0);
 }
 
+bool Wave::write(const int where, const double& what) {
+  if (where < MAX_NO_SAMPLES and where >= 0) {
+    samples_.at(where) += what;
+    return true;
+  } 
+  return false;
+}
+
 void Wave::writeToSamples() {
   int x = 0;
   30000 * [&] {
@@ -41,8 +49,8 @@ void Wave::line(const Box& box) {
 }
 
 void Wave::simpleSine(const double maxAmplitude) {
-  const double c4Frequency = 261.626;  
-  const double seconds   = 2.5; 
+  const double c4Frequency = 261.626,  
+                   seconds = 2.5; 
   int numberOfSamples = seconds * samplesPerSecond;  
   numberOfSamples * [&](int i) {
     double value = sin( 2.0 * pi * i * c4Frequency / samplesPerSecond );
@@ -50,20 +58,20 @@ void Wave::simpleSine(const double maxAmplitude) {
   };
 }
 
-bool Wave::write(const int where, const double& what) {
-  if (where < MAX_NO_SAMPLES and where >= 0) {
-    samples_.at(where) += what;
-    return true;
-  } 
-  return false;
+void Wave::normalize() {
+  double maxAmpl = maxAmplitude();
+  if (maxAmpl > verySmall)
+    normalize(maxAmpl);
 }
 
-void Wave::normalize() {
-  double maxAmplitude = 0;
-  for (const auto amplitude: samples_) 
-    maxAmplitude = max(maxAmplitude, abs(amplitude));
-  if (maxAmplitude>verySmall)
-    for (auto& amplitude: samples_) {	
-      amplitude /= maxAmplitude;
-    }
+double Wave::maxAmplitude() {
+  double result = 0;
+  for (const double amplitude : samples_) 
+    result = max(result, abs(amplitude));
+  return result;
+}
+
+void Wave::normalize(const double maxAmplitude) {
+  for (auto& amplitude : samples_) 
+    amplitude /= maxAmplitude;
 }

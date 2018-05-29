@@ -46,7 +46,11 @@ public:
 
 private:
   bool write(const int where, const double& what);
+  void normalize(const double maxAmplitude);
+  double maxAmplitude();
+
   Samples samples_;  
+
 };
 
 

@@ -34,9 +34,7 @@ bool Accumulator::operator< (const int & i) {
   return value_ < i; 
 }
 
-//int& Accumulator::operator& () {
-//  return value_;
-//}
+
 
 
 

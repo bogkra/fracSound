@@ -17,10 +17,10 @@ bool Incrementator::repeat(const int end) {
 
 
 void operator * (const int upperBound, std::function<void (void)> repeatedFunction) {
-   for (int i = 0; i < upperBound; i++) repeatedFunction();
+   for (Incrementator i; i.repeat(upperBound);) repeatedFunction();
 }
 
 
 void operator * (const int upperBound, std::function<void (const int)> repeatedFunction) {
-   for (int i = 0; i < upperBound; i++) repeatedFunction(i);
+   for (Incrementator i; i.repeat(upperBound);) repeatedFunction(i);
 }
