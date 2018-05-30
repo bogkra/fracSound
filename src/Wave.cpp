@@ -6,6 +6,7 @@
 using namespace std;
 using namespace Config;
 
+
 Wave::Wave() {
   srand(time(NULL));
   samples_.fill(0.0);
@@ -42,9 +43,9 @@ void Wave::sine(const Box& box) {
 void Wave::line(const Box& box) {
   for (int i = box.getXRange().getBegin();  
        i !=  (int)box.getXRange().getEnd();
-       box.isForward() ? i++ : i--) {
-         int tempWidth = i - box.getXRange().getBegin();
-         write(i, box.getYRange().getBegin() + box.height() * tempWidth / box.width());
+       box.isForward() ? i++ : i-- ) {
+          int tempWidth = i - box.getXRange().getBegin();
+          write(i, box.getYRange().getBegin() + box.height() * tempWidth / box.width());
   }
 }
 
@@ -60,7 +61,7 @@ void Wave::simpleSine(const double maxAmplitude) {
 
 void Wave::normalize() {
   double maxAmpl = maxAmplitude();
-  if (maxAmpl > verySmall)
+  if (not isVerySmall(maxAmpl))
     normalize(maxAmpl);
 }
 
@@ -75,3 +76,9 @@ void Wave::normalize(const double maxAmplitude) {
   for (auto& amplitude : samples_) 
     amplitude /= maxAmplitude;
 }
+
+bool isVerySmall(const double number) {
+  const double verySmall = 1E-15;
+  return number <= verySmall;
+}
+
