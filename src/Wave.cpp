@@ -12,6 +12,10 @@ Wave::Wave() {
   samples_.fill(0.0);
 }
 
+Wave::~Wave() {
+  delete pSamples;
+}
+
 bool Wave::write(const int where, const double& what) {
   if (where < MAX_NO_SAMPLES and where >= 0) {
     samples_.at(where) += what;

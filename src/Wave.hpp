@@ -24,7 +24,7 @@ namespace Config {
   const int bitsPerSample = 8 * bytesPerSample;
   const int samplesPerSecond = 44100;
   constexpr double pi = acos(-1);
-  const int MAX_NO_SAMPLES = 22 * samplesPerSecond;
+  const int MAX_NO_SAMPLES = 5 * samplesPerSecond;
   const std::vector<Position> positions = {Position::leftPos, Position::rightPos};
 }
 
@@ -36,7 +36,7 @@ using Samples = std::array<double, Config::MAX_NO_SAMPLES> ;
 class Wave {
 public: 
   Wave();
-
+  ~Wave();
   void writeToSamples();
   void sine(const Box& box);
   void line(const Box& box);
@@ -50,7 +50,8 @@ private:
   void normalize(const double maxAmplitude);
   double maxAmplitude();
 
-  Samples samples_;  
+  Samples * pSamples = new Samples;
+  Samples & samples_ = *pSamples;  
 
 };
 
