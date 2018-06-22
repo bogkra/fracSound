@@ -1,12 +1,12 @@
 #include "Incrementator.hpp"
 
 
-Incrementator& Incrementator::operator++ () { 
+Incrementator& Incrementator::operator ++ () { 
   value_++; 
   return *this;
 }
 
-Incrementator Incrementator::operator++ (int) { 
+Incrementator Incrementator::operator ++ (int) { 
   ++value_;
   return *this;
 }
@@ -24,3 +24,5 @@ void operator * (const int upperBound, std::function<void (void)> repeatedFuncti
 void operator * (const int upperBound, std::function<void (const int)> repeatedFunction) {
    for (Incrementator i; i.repeat(upperBound);) repeatedFunction(i);
 }
+
+

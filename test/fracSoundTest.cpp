@@ -8,7 +8,7 @@ using namespace std;
 class fracSoundTest : public ::testing::Test
 {
 public:
-  double small = 0.003;
+  const double small = 0.0000001;
 };
 
 
@@ -50,8 +50,8 @@ TEST_F(fracSoundTest, twoSines)
   ASSERT_TRUE(abs(wave.getSamples()[125] - 1.0) < small);
   ASSERT_TRUE(abs(wave.getSamples()[150]      ) < small);
   ASSERT_TRUE(abs(wave.getSamples()[175] + 1.0) < small);
-
 }
+
 
 TEST_F(fracSoundTest, incrementatorTest)
 {
@@ -81,3 +81,5 @@ TEST_F(fracSoundTest, repeatTest)
   ASSERT_EQ(i, 1);  
 
 }
+
+

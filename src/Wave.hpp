@@ -24,7 +24,7 @@ namespace Config {
   const int bitsPerSample = 8 * bytesPerSample;
   const int samplesPerSecond = 44100;
   constexpr double pi = acos(-1);
-  const int MAX_NO_SAMPLES = 5 * samplesPerSecond;
+  const int MAX_NO_SAMPLES = 2 * samplesPerSecond;
   const std::vector<Position> positions = {Position::leftPos, Position::rightPos};
 }
 
@@ -46,13 +46,16 @@ public:
   Samples& getSamples()  {return samples_;};  
 
 private:
+  void writeToSample(int & moment);
   bool write(const int where, const double& what);
   void normalize(const double maxAmplitude);
   double maxAmplitude();
 
-  Samples * pSamples = new Samples;
+  Samples * pSamples {new Samples};
   Samples & samples_ = *pSamples;  
+//  Samples samples_;  
 
 };
 
 bool isVerySmall(const double number);
+

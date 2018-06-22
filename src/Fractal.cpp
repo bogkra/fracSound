@@ -1,23 +1,28 @@
 #include <cmath>
 #include "Fractal.hpp"
+#include "Box.hpp"
 
 using namespace std;
 
-// hackerrank.com/domainsut
-// wersja ściśnięta:
-// for(int i=0;i<9;i++){do();}
-// 9*[]{do();};
-// - o 15 znaków mniej
-// wersja rozlazła:
-// for (int i = 0; i < 9; i++) { do(); }
-// 9 * [] {do(); };
-// - o 21 znaków mniej
-// wersja superrozlazła:
-// for ( int i = 0 ; i < 9 ; i ++ ) { do () ; }
-// 9 * [] { do () ; };
-// - o 25 znaków mniej
-// nazwy indeksów dłuższe, np. index
-// for ( int index = 0 ; index < 9 ; index ++ ) { do () ; }
-// 9 * [] { do () ; } ;
-// - o 37 znaków mniej
+
+void Fractal::run(const Box & box, const int level) {
+/*  if (level==0)
+//      wave_.line(box)
+;   
+  else {
+    for (auto part : parts_) {
+
+  // TODO: rescale
+      Range times(moment, moment + period);
+      Range amplitudes(0.0, amplitude);
+      Box newBox(times, amplitudes);
+
+      Box newBox ();
+      run(newBox, level -1 );
+//      newBox(part
+  }*/
+  (void)box;
+  (void)level;
+}
+
 

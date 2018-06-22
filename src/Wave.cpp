@@ -1,4 +1,5 @@
 #include <cmath>
+#include "algorithm"
 #include "Wave.hpp"
 #include "Incrementator.hpp"
 #include "Accumulator.hpp"
@@ -24,17 +25,22 @@ bool Wave::write(const int where, const double& what) {
   return false;
 }
 
+void Wave::writeToSample(int & moment) {
+  int amplitude = (rand() % 1000000) * 0.0001;
+  int period = rand() % 500;
+  Range times(moment, moment + period);
+  Range amplitudes(0.0, amplitude);
+  Box box(times, amplitudes);
+  sine(box);
+  moment += period;
+}
+
 void Wave::writeToSamples() {
-  int x = 0;
-  30000 * [&] {
-    int amplitude = (rand() % 1000000) * 0.0001;
-    int length = rand() % 500;
-    Range xs(x, x+length);
-    Range ys(0.0, amplitude);
-    Box box(xs, ys);
-    sine(box);
-    x += length;
-  }; 
+  int moment = 0;
+  const int exemplaryComplexity = 30000;
+  exemplaryComplexity * [&] {
+    writeToSample(moment);
+  };
 }
 
 void Wave::sine(const Box& box) {
@@ -45,12 +51,11 @@ void Wave::sine(const Box& box) {
 }
 
 void Wave::line(const Box& box) {
-  for (int i = box.getXRange().getBegin();  
-       i !=  (int)box.getXRange().getEnd();
-       box.isForward() ? i++ : i-- ) {
-          int tempWidth = i - box.getXRange().getBegin();
-          write(i, box.getYRange().getBegin() + box.height() * tempWidth / box.width());
-  }
+  const int begin = box.getXRange().min();
+  const int   end = box.getXRange().max();    
+
+  for (Incrementator tempWidth; tempWidth.repeat(end - begin);) 
+     write(begin + tempWidth, begin + box.height() * tempWidth / box.width());
 }
 
 void Wave::simpleSine(const double maxAmplitude) {
@@ -69,11 +74,12 @@ void Wave::normalize() {
     normalize(maxAmpl);
 }
 
+bool absCompare(double a, double b) {
+  return abs(a) < abs(b);
+}
+
 double Wave::maxAmplitude() {
-  double result = 0;
-  for (const double amplitude : samples_) 
-    result = max(result, abs(amplitude));
-  return result;
+  return *max_element(samples_.begin(),samples_.end(), absCompare);
 }
 
 void Wave::normalize(const double maxAmplitude) {
@@ -83,6 +89,6 @@ void Wave::normalize(const double maxAmplitude) {
 
 bool isVerySmall(const double number) {
   const double verySmall = 1E-15;
-  return number <= verySmall;
+  return abs(number) <= verySmall;
 }
 

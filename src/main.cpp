@@ -22,6 +22,9 @@ int main() {
   wave.normalize();
 
 //  delete pWave;   
+
+  return 0;
 }
+
 
 
