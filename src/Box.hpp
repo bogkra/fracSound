@@ -9,6 +9,7 @@ public:
   double width() const;
   double height() const;
   bool isForward() const;
+  void rescale(Box outside);
 private:
   Range xRange_;
   Range yRange_;

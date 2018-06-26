@@ -8,8 +8,6 @@
 
 int main() {
   Wave wave;
-//  auto pWave  = new Wave;
-//  Wave & wave = *pWave;
   Range xs1(0.0, 100.0);
   Range ys(0.0, 123.456);
   Box box1(xs1, ys);
@@ -21,7 +19,6 @@ int main() {
 
   wave.normalize();
 
-//  delete pWave;   
 
   return 0;
 }

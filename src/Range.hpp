@@ -10,9 +10,13 @@ public:
   bool isForward() const;
   double min() const;
   double max() const;
+  bool isBetween(const double x);
+  double proportionallyBetween(const double alpha);
+  void rescale(Range outside);
 private:
   double begin_;  
   double end_;  
+
 };
 
 

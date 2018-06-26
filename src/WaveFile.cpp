@@ -4,6 +4,21 @@ using namespace std;
 using namespace LittleEndianIo;
 using namespace Config;
 
+WaveFile::WaveFile(const std::string& fileName, Wave* pWave) {    
+  pWave->writeToSamples();
+
+  file.open(fileName, ios::binary);
+  writeHeader();
+  size_t dataChunkPos = file.tellp();
+  writeDataChunkHeader(); 
+
+  samplesToFile(*pWave);
+
+  size_t positionAfterData = file.tellp();
+  fixDataChunkHeader(dataChunkPos, positionAfterData);
+  fixFileHeader(positionAfterData);
+}
+
 void WaveFile::samplesToFile(Wave& wave) {
   const double maxAmplitude = 32767;  
   wave.normalize();  
@@ -67,20 +82,7 @@ void WaveFile::fixFileHeader(const size_t positionAfterData) {
   file.close();
 }	
 
-WaveFile::WaveFile(const std::string& fileName, Wave* pWave) {    
-  pWave->writeToSamples();
 
-  file.open(fileName, ios::binary);
-  writeHeader();
-  size_t dataChunkPos = file.tellp();
-  writeDataChunkHeader(); 
-
-  samplesToFile(*pWave);
-
-  size_t positionAfterData = file.tellp();
-  fixDataChunkHeader(dataChunkPos, positionAfterData);
-  fixFileHeader(positionAfterData);
-}
 
 
 

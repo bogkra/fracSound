@@ -6,19 +6,18 @@
 #include "Wave.hpp"
 
  
-using Parts = std::array<Box, 12>;
+using Parts = std::array<Box, 0>;
 
 
 class Fractal {
 public: 
-  Fractal(const Box box, const Parts parts) : box_(box), parts_(parts) {};
-//  Fractal(const Box box, const Parts parts, const Wave & wave) : box_(box), parts_(parts), wave_(wave) {};
+  Fractal(Wave & wave,  Box & box, const Parts & parts) : wave_(wave), box_(box), parts_(parts) {};
   void run(const Box & box, const int level);
 
 private:
-  Box box_;
+  Wave & wave_;
+  Box & box_;
   Parts parts_;
-//  Wave & wave_;
 };
 
 

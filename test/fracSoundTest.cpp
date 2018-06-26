@@ -2,8 +2,14 @@
 #include <array>
 #include "Wave.hpp"
 #include "Incrementator.hpp"
+#include "Fractal.hpp"
 
 using namespace std;
+
+//TODO output bitmap tests instead of Wave
+//TODO input bitmap
+//TODO neural network
+
 
 class fracSoundTest : public ::testing::Test
 {
@@ -52,6 +58,41 @@ TEST_F(fracSoundTest, twoSines)
   ASSERT_TRUE(abs(wave.getSamples()[175] + 1.0) < small);
 }
 
+TEST_F(fracSoundTest, trivialFractal)
+{
+  Range xs1(0, 100);
+  Range ys(0.0, 123.456);
+  Box box1(xs1, ys);
+  Wave wave;
+  Parts parts;
+  Fractal fractal(wave, box1, parts);
+  fractal.run(box1, 0);
+  wave.normalize();
+  ASSERT_EQ(wave.getSamples()[0], 0.0);
+  ASSERT_TRUE(abs(wave.getSamples()[25] - 0.25) < small);
+  ASSERT_TRUE(abs(wave.getSamples()[50] - 0.50) < small);
+  ASSERT_TRUE(abs(wave.getSamples()[75] - 0.75) < small);
+  ASSERT_TRUE(abs(wave.getSamples()[100] -1.00) < small);
+}
+
+/*
+TEST_F(fracSoundTest, level1Fractal)
+{
+  Range xs1(0, 100);
+  Range ys(0.0, 223.456);
+  Box box1(xs1, ys);
+  Wave wave;
+  Parts parts;
+  Fractal fractal(wave, box1, parts);
+  fractal.run(box1, 1);
+  wave.normalize();
+  ASSERT_EQ(wave.getSamples()[0], 0.0);
+  ASSERT_TRUE(abs(wave.getSamples()[25] - 0.25) < small);
+  ASSERT_TRUE(abs(wave.getSamples()[50] - 0.50) < small);
+  ASSERT_TRUE(abs(wave.getSamples()[75] - 0.75) < small);
+  ASSERT_TRUE(abs(wave.getSamples()[100] -1.00) < small);
+}
+*/
 
 TEST_F(fracSoundTest, incrementatorTest)
 {
@@ -59,7 +100,6 @@ TEST_F(fracSoundTest, incrementatorTest)
   for (Incrementator i; i.repeat(10);) 
       x +=3;
   ASSERT_EQ(x, 30);
-
 }
 
 TEST_F(fracSoundTest, repeatTest)

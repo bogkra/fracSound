@@ -13,3 +13,7 @@ bool Box::isForward() const {
   return width() >= 0.0;
 }
 
+void Box::rescale(Box outside) {
+  xRange_.rescale(outside.getXRange());
+  yRange_.rescale(outside.getYRange());
+}
