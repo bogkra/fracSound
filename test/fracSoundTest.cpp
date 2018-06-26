@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include <array>
+#include <vector>
 #include "Wave.hpp"
 #include "Incrementator.hpp"
 #include "Fractal.hpp"
@@ -60,13 +60,13 @@ TEST_F(fracSoundTest, twoSines)
 
 TEST_F(fracSoundTest, trivialFractal)
 {
-  Range xs1(0, 100);
+  Range xs(0, 100);
   Range ys(0.0, 123.456);
-  Box box1(xs1, ys);
+  Box box(xs, ys);
   Wave wave;
-  Parts parts;
-  Fractal fractal(wave, box1, parts);
-  fractal.run(box1, 0);
+  vector<Box> parts;
+  Fractal fractal(wave, box, parts);
+  fractal.run(box, 0);
   wave.normalize();
   ASSERT_EQ(wave.getSamples()[0], 0.0);
   ASSERT_TRUE(abs(wave.getSamples()[25] - 0.25) < small);
@@ -75,24 +75,30 @@ TEST_F(fracSoundTest, trivialFractal)
   ASSERT_TRUE(abs(wave.getSamples()[100] -1.00) < small);
 }
 
-/*
+
 TEST_F(fracSoundTest, level1Fractal)
 {
-  Range xs1(0, 100);
-  Range ys(0.0, 223.456);
-  Box box1(xs1, ys);
+  Range xs(0, 100);
+  Range ys(0.0, 1.0);
+  Box box(xs, ys);
   Wave wave;
+
+  Range exampleX(0.4, 0.8);
+  Range exampleY(0.2, 0.5);
+  Box exampleBox(exampleX, exampleY);
+
   Parts parts;
-  Fractal fractal(wave, box1, parts);
-  fractal.run(box1, 1);
-  wave.normalize();
+  parts.push_back(exampleBox);
+  Fractal fractal(wave, box, parts);
+  fractal.run(box, 1);
+//  wave.normalize();
   ASSERT_EQ(wave.getSamples()[0], 0.0);
-  ASSERT_TRUE(abs(wave.getSamples()[25] - 0.25) < small);
-  ASSERT_TRUE(abs(wave.getSamples()[50] - 0.50) < small);
-  ASSERT_TRUE(abs(wave.getSamples()[75] - 0.75) < small);
-  ASSERT_TRUE(abs(wave.getSamples()[100] -1.00) < small);
+  ASSERT_EQ(wave.getSamples()[20], 0.1);
+  ASSERT_EQ(wave.getSamples()[40], 0.2);
+//  ASSERT_EQ(wave.getSamples()[80], 0.5);
+//  ASSERT_TRUE(abs(wave.getSamples()[20] - 0.1) < small);
 }
-*/
+
 
 TEST_F(fracSoundTest, incrementatorTest)
 {

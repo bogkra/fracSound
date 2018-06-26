@@ -19,7 +19,7 @@ double Range::max() const {
 
 bool Range::isBetween(const double x) {
   return (begin_ >= x and x<= end_) or
-         (end_ >= x and x<= begin_);
+         (end_   >= x and x<= begin_);
 }
 
 double Range::proportionallyBetween(const double alpha) {
