@@ -92,7 +92,7 @@ TEST_F(fracSoundTest, level1Fractal) {
   ASSERT_EQ(wave.getSamples()[40], 0.2);
   ASSERT_EQ(wave.getSamples()[60], 0.35); 
   ASSERT_EQ(wave.getSamples()[80], 0.5);  
-//  ASSERT_EQ(wave.getSamples()[99], 1.0);  // 0.0
+  ASSERT_EQ(wave.getSamples()[100], 1.0);  // 0.0
 //  ASSERT_TRUE(abs(wave.getSamples()[20] - 0.1) < small);
 }
 

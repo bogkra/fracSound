@@ -8,6 +8,7 @@
 
 using Parts = std::vector<Box>;
 using Point = std::pair<double, double>;
+using Points = std::vector<Point>;
 
 class Fractal {
 public: 
@@ -18,6 +19,7 @@ private:
   Wave & wave_;
   Box & box_;
   Parts parts_;
+  Points points_;
 };
 
 
