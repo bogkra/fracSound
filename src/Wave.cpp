@@ -1,4 +1,5 @@
 #include <cmath>
+#include <iostream>
 #include "algorithm"
 #include "Wave.hpp"
 #include "Incrementator.hpp"
@@ -53,9 +54,8 @@ void Wave::sine(const Box& box) {
 void Wave::line(const Box& box) {
   const int begin = box.getXRange().min();
   const int   end = box.getXRange().max();    
-
   for (Incrementator tempWidth; tempWidth.repeat(end - begin);) 
-     write(begin + tempWidth, begin + box.height() * tempWidth / box.width());
+     write(begin + tempWidth, box.getYRange().min() + box.height() * tempWidth / box.width());
 }
 
 void Wave::simpleSine(const double maxAmplitude) {

@@ -11,16 +11,14 @@ using namespace std;
 //TODO neural network
 
 
-class fracSoundTest : public ::testing::Test
-{
+class fracSoundTest : public ::testing::Test {
 public:
   const double small = 0.0000001;
 };
 
 
 
-TEST_F(fracSoundTest, sine)
-{
+TEST_F(fracSoundTest, sine) {
   Wave wave;
   Range xs(0, 100);
   Range ys(0.0, 123.456);
@@ -35,8 +33,7 @@ TEST_F(fracSoundTest, sine)
 }
 
 
-TEST_F(fracSoundTest, twoSines)
-{
+TEST_F(fracSoundTest, twoSines) {
   Range xs1(0, 100);
   Range ys(0.0, 123.456);
   Box box1(xs1, ys);
@@ -58,8 +55,7 @@ TEST_F(fracSoundTest, twoSines)
   ASSERT_TRUE(abs(wave.getSamples()[175] + 1.0) < small);
 }
 
-TEST_F(fracSoundTest, trivialFractal)
-{
+TEST_F(fracSoundTest, trivialFractal) {
   Range xs(0, 100);
   Range ys(0.0, 123.456);
   Box box(xs, ys);
@@ -76,8 +72,7 @@ TEST_F(fracSoundTest, trivialFractal)
 }
 
 
-TEST_F(fracSoundTest, level1Fractal)
-{
+TEST_F(fracSoundTest, level1Fractal) {
   Range xs(0, 100);
   Range ys(0.0, 1.0);
   Box box(xs, ys);
@@ -95,21 +90,21 @@ TEST_F(fracSoundTest, level1Fractal)
   ASSERT_EQ(wave.getSamples()[0], 0.0);
   ASSERT_EQ(wave.getSamples()[20], 0.1);
   ASSERT_EQ(wave.getSamples()[40], 0.2);
-//  ASSERT_EQ(wave.getSamples()[80], 0.5);
+  ASSERT_EQ(wave.getSamples()[60], 0.35); 
+  ASSERT_EQ(wave.getSamples()[80], 0.5);  
+//  ASSERT_EQ(wave.getSamples()[99], 1.0);  // 0.0
 //  ASSERT_TRUE(abs(wave.getSamples()[20] - 0.1) < small);
 }
 
 
-TEST_F(fracSoundTest, incrementatorTest)
-{
+TEST_F(fracSoundTest, incrementatorTest) {
   int x = 0;
   for (Incrementator i; i.repeat(10);) 
       x +=3;
   ASSERT_EQ(x, 30);
 }
 
-TEST_F(fracSoundTest, repeatTest)
-{
+TEST_F(fracSoundTest, repeatTest) {
   int x = 0;
   for (Incrementator i; i.repeat(10);)
       x += 3;
@@ -125,7 +120,4 @@ TEST_F(fracSoundTest, repeatTest)
   i++;
   i=i;
   ASSERT_EQ(i, 1);  
-
 }
-
-
