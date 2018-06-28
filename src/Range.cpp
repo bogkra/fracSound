@@ -18,17 +18,19 @@ double Range::max() const {
 }
 
 bool Range::isBetween(const double x) {
-  return (begin_ >= x and x<= end_) or
+  return (begin_ >= x and x<= end_)   or
          (end_   >= x and x<= begin_);
 }
 
 double Range::proportionallyBetween(const double alpha) {
-  return begin_ + alpha * (end_ - begin_);
+  return begin_ + alpha * length();
 }
 
 void Range::rescale(Range outside) { 
-  begin_ = outside.proportionallyBetween(begin_);
-  end_   = outside.proportionallyBetween(end_);
+  double returnBegin = outside.proportionallyBetween(begin_);
+  double returnEnd   = outside.proportionallyBetween(end_);
+  begin_ = returnBegin;
+  end_ = returnEnd;
 }
 
 

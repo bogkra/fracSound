@@ -55,7 +55,7 @@ void Wave::line(const Box& box) {
   const int begin = box.getXRange().min();
   const int   end = box.getXRange().max();    
   for (Incrementator tempWidth; tempWidth.repeat(end - begin);) 
-     write(begin + tempWidth, box.getYRange().min() + box.height() * tempWidth / box.width());
+     write(begin + tempWidth, box.getYRange().getBegin() + box.height() * tempWidth / (end - begin));
 }
 
 void Wave::simpleSine(const double maxAmplitude) {

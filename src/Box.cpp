@@ -10,7 +10,7 @@ double Box::height() const {
 }
 
 bool Box::isForward() const {
-  return width() >= 0.0;
+  return xRange_.isForward();
 }
 
 void Box::rescale(Box outside) {
