@@ -20,6 +20,8 @@ private:
   Box & box_;
   Parts parts_;
   Points points_;
+
+  void pointToPart(Points::iterator it);
 };
 
 
