@@ -13,6 +13,8 @@ public:
   bool isBetween(const double x);
   double proportionallyBetween(const double alpha);
   void rescale(Range outside);
+  void rescale(double alpha);
+  void moveDown();
 private:
   double begin_;  
   double end_;  

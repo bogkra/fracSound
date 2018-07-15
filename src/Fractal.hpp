@@ -11,16 +11,19 @@ using Points = std::vector<Point>;
 
 class Fractal {
 public: 
-  Fractal(Wave & wave,  Box & box, const Parts parts);
-  Fractal(Wave & wave,  Box & box, const Points points);
-  void run(const Box & box, const int level);
+  Fractal(Wave & wave, const Parts parts);
+  Fractal(Wave & wave, const Points points);
+//  void startFractal(const Box & outsideBox, const int level);
+  void start(const int level);
 
 private:
   Wave & wave_;
-  Box & box_;
+//  Box outsideBox_; 
   Parts parts_;
+//  Pairs parts_;
   Points points_;
 
+  void run(const Box & box, const int level);
   void pointToPart(Points::iterator it);
 };
 

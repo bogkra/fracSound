@@ -27,12 +27,27 @@ double Range::proportionallyBetween(const double alpha) {
 }
 
 void Range::rescale(Range outside) { 
-  double returnBegin = outside.proportionallyBetween(begin_);
-  double returnEnd   = outside.proportionallyBetween(end_);
-  begin_ = returnBegin;
-  end_ = returnEnd;
+  begin_ = outside.proportionallyBetween(begin_);
+  end_   = outside.proportionallyBetween(end_);
+//  double returnBegin = outside.proportionallyBetween(begin_);
+//  double returnEnd   = outside.proportionallyBetween(end_);
+//  begin_ = returnBegin;
+//  end_ = returnEnd;
 }
 
+void Range::rescale(double alpha) { 
+  begin_ *= alpha;
+  end_ *= alpha;
+}
+
+void Range::moveDown() {
+  end_ -= begin_;
+  begin_ = 0;
+}
+
+bool in(const double x, Range range) {
+  return range.isBetween(x);
+}
 
 
 

@@ -21,6 +21,7 @@ Wave::~Wave() {
 bool Wave::write(const int where, const double& what) {
   if (where < MAX_NO_SAMPLES and where >= 0) {
     samples_.at(where) += what;
+//    cout << where << ":" << what << " ";
     return true;
   } 
   return false;
@@ -36,7 +37,7 @@ void Wave::writeToSample(int & moment) {
   moment += period;
 }
 
-void Wave::writeToSamples() {
+void Wave::writeToSamples() { 
   int moment = 0;
   const int exemplaryComplexity = 30000;
   exemplaryComplexity * [&] {
@@ -54,8 +55,11 @@ void Wave::sine(const Box& box) {
 void Wave::line(const Box& box) {
   const int begin = box.getXRange().min();
   const int   end = box.getXRange().max();    
-  for (Incrementator tempWidth; tempWidth.repeat(end - begin);) 
+//TODO: opposite direction !?
+
+  for (Incrementator tempWidth; tempWidth.repeat(end - begin);) {
      write(begin + tempWidth, box.getYRange().getBegin() + box.height() * tempWidth / (end - begin));
+  }
 }
 
 void Wave::simpleSine(const double maxAmplitude) {
