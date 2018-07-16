@@ -29,27 +29,12 @@ void Fractal::run(const Box & outsideBox, const int level) {
 
   Box drawBox = outsideBox;
   drawBox.widthRescale(100.0);    
-  cout << drawBox.getXRange().getBegin() << "," << drawBox.getYRange().getBegin() << " ->  ";
-  cout << drawBox.getXRange().getEnd() << "," << drawBox.getYRange().getEnd() << "   "; 
   wave_.line(drawBox);
-//  if (level == 0) {
-//  }
-//  else 
   if (level > 0) {
     for (auto part : parts_) {    
-//      wave_.line(outsideBox);  //???
-    
-
-
       Box newBox = part;
-//      cout << "a:" << part.width() << " b:" << outsideBox.width() << "   ";
-//      newBox.equallyRescale(part.width()/outsideBox.width()); 
-      double alpha = part.width()/outsideBox.width();
-      cout << "alpha=" << alpha << "   ";
-   //   newBox.rescale(outsideBox);
-
-
-//      newBox.getYRange().rescale(alpha);  // to w ogole nie dziala! // x tez przeskalowac !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+      double alpha = outsideBox.width()/1.0;
+      newBox.widthyRescale(outsideBox, alpha);
       run(newBox, level - 1);
     }
   }
@@ -60,10 +45,5 @@ void Fractal::start(const int level) {
   run(box, level);
 }
 
-//skandynawska w rynku (w paryzu??)
 
-//12-13
-// 09881
 
-//opel klasa b 50 - przygotowawcza o 20 
-//od 8 do 18

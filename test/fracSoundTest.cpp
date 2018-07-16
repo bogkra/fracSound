@@ -141,30 +141,29 @@ TEST_F(fracSoundTest, level1FractalUsingPoints) {
 
 TEST_F(fracSoundTest, level1) {
   Wave wave;
-//  Box box(Range(0, 100),  Range(0.0, 1.0));
   Points points = {Point(0.5, 0.8)};
   Fractal fractal(wave, points);
   fractal.start(1);
-//  wave.normalize();
   ASSERT_EQ(wave.getSamples()[0], 0.0);
   ASSERT_EQ(wave.getSamples()[25], 0.4);
   ASSERT_EQ(wave.getSamples()[50], 0.8);
   ASSERT_EQ(wave.getSamples()[100], 0.0);  
 }
 
-/*
+
 TEST_F(fracSoundTest, level2) {
   Wave wave;
-//  Box box(Range(0, 100),  Range(0.0, 1.0));
   Points points = {Point(0.5, 0.2)};
   Fractal fractal(wave, points);
   fractal.start(2);
   ASSERT_EQ(wave.getSamples()[0], 0.0);
-  ASSERT_EQ(wave.getSamples()[25], 0.0);
-  ASSERT_EQ(wave.getSamples()[50], 0.0);
+  ASSERT_EQ(wave.getSamples()[25], 0.2);
+  ASSERT_EQ(wave.getSamples()[30], 0.2);
+  ASSERT_EQ(wave.getSamples()[50], 0.2);
+  ASSERT_EQ(wave.getSamples()[60], 0.2);
   ASSERT_EQ(wave.getSamples()[101], 0.0);  
 }
-*/
+
 TEST_F(fracSoundTest, incrementatorTest) {
   int x = 0;
   for (Incrementator i; i.repeat(10);) 

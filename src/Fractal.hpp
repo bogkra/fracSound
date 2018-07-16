@@ -13,14 +13,11 @@ class Fractal {
 public: 
   Fractal(Wave & wave, const Parts parts);
   Fractal(Wave & wave, const Points points);
-//  void startFractal(const Box & outsideBox, const int level);
   void start(const int level);
 
 private:
   Wave & wave_;
-//  Box outsideBox_; 
   Parts parts_;
-//  Pairs parts_;
   Points points_;
 
   void run(const Box & box, const int level);

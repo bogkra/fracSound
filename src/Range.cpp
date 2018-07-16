@@ -29,10 +29,6 @@ double Range::proportionallyBetween(const double alpha) {
 void Range::rescale(Range outside) { 
   begin_ = outside.proportionallyBetween(begin_);
   end_   = outside.proportionallyBetween(end_);
-//  double returnBegin = outside.proportionallyBetween(begin_);
-//  double returnEnd   = outside.proportionallyBetween(end_);
-//  begin_ = returnBegin;
-//  end_ = returnEnd;
 }
 
 void Range::rescale(double alpha) { 

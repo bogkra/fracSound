@@ -19,6 +19,7 @@ void Box::rescale(Box outside) {
   
 }
 
+
 void Box::equallyRescale(const double alpha) {
   xRange_.rescale(alpha);
   yRange_.rescale(alpha);
@@ -29,8 +30,9 @@ void Box::widthRescale(const double alpha) {
   xRange_.rescale(alpha);
 }
 
-void Box::widthyRescale(const double alpha) {
-  equallyRescale(alpha);
-  yRange_.moveDown();
+void Box::widthyRescale(const Box & outside, const double alpha) {
+  xRange_.rescale(outside.getXRange());
+  yRange_.rescale(alpha); 
 }
+
 
