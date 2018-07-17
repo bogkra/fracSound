@@ -28,6 +28,7 @@ void Fractal::pointToPart(Points::iterator it) {
 void Fractal::run(const Box & outsideBox, const int level) {
   Box drawBox = outsideBox;
   drawBox.widthRescale(positions_.length());   
+  drawBox.heightRescale(power_);   
   drawBox.move(positions_.getBegin()); 
   wave_.line(drawBox);
   if (level > 0) 

@@ -14,8 +14,10 @@ public:
   void rescale(Box outside);
   void equallyRescale(const double alpha);
   void widthRescale(const double alpha);
+  void heightRescale(const double alpha);
   void widthyRescale(const Box & outside, const double alpha);
   void move(const double x);
+
 private:
   Range xRange_;
   Range yRange_;

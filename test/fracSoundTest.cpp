@@ -197,5 +197,20 @@ TEST_F(fracSoundTest, level1width1000) {
   ASSERT_EQ(wave.getSamples()[1000], 0.0);  
 }
 
+TEST_F(fracSoundTest, level1power2) {
+  Wave wave;
+  vector<Box> parts;
+  Points points = {Point(0.5, 0.8)};
+  Fractal fractal(wave, points);
+  fractal.setPositions(Range(0,1000));
+  fractal.setPower(2.0);
+  fractal.start(1);
+  ASSERT_EQ(wave.getSamples()[0], 0.0);
+  ASSERT_EQ(wave.getSamples()[250], 0.8);
+  ASSERT_EQ(wave.getSamples()[500], 1.6);
+  ASSERT_EQ(wave.getSamples()[750], 0.8);
+  ASSERT_EQ(wave.getSamples()[1000], 0.0);  
+}
+
 
 

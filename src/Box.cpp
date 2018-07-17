@@ -16,9 +16,7 @@ bool Box::isForward() const {
 void Box::rescale(Box outside) {
   xRange_.rescale(outside.getXRange());
   yRange_.rescale(outside.getYRange());
-  
 }
-
 
 void Box::equallyRescale(const double alpha) {
   xRange_.rescale(alpha);
@@ -28,6 +26,10 @@ void Box::equallyRescale(const double alpha) {
 
 void Box::widthRescale(const double alpha) {
   xRange_.rescale(alpha);
+}
+
+void Box::heightRescale(const double alpha) {
+  yRange_.rescale(alpha);
 }
 
 void Box::widthyRescale(const Box & outside, const double alpha) {
