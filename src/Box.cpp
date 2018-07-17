@@ -35,4 +35,6 @@ void Box::widthyRescale(const Box & outside, const double alpha) {
   yRange_.rescale(alpha); 
 }
 
-
+void Box::move(const double x) {
+  xRange_.move(x);
+}

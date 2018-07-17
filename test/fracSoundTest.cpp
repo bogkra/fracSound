@@ -57,10 +57,9 @@ TEST_F(fracSoundTest, twoSines) {
 
 TEST_F(fracSoundTest, level0trivial) {
   Wave wave;
-  vector<Box> parts;
+  Parts parts;
   Fractal fractal(wave, parts);
   fractal.start(0);
-//  wave.normalize();
   ASSERT_EQ(wave.getSamples()[0], 0.0);
   ASSERT_EQ(wave.getSamples()[25], 0.0);
   ASSERT_EQ(wave.getSamples()[50], 0.0);
@@ -72,7 +71,6 @@ TEST_F(fracSoundTest, level1trivial) {
   vector<Box> parts;
   Fractal fractal(wave, parts);
   fractal.start(1);
-//  wave.normalize();
   ASSERT_EQ(wave.getSamples()[0], 0.0);
   ASSERT_EQ(wave.getSamples()[25], 0.0);
   ASSERT_EQ(wave.getSamples()[50], 0.0);
@@ -84,36 +82,33 @@ TEST_F(fracSoundTest, level1trivial) {
 //  ASSERT_TRUE(abs(wave.getSamples()[100] -0.0) < small);
 }
 
-/*
+
 TEST_F(fracSoundTest, level1FractalUsingParts) {
 
-  Box box(  Range(0, 100),  Range(0.0, 1.0));
+ // Box box(  Range(0, 100),  Range(0.0, 1.0));
   Box exampleBox(Range(0.4, 0.8), Range(0.2, 0.5));
 
   Parts parts;
   parts.push_back(exampleBox);
   Wave wave;
   Fractal fractal(wave,  parts);
-  fractal.run(box, 1);
-//  wave.normalize();
-//  ASSERT_EQ(wave.getSamples()[0], 0.0);
-//  ASSERT_EQ(wave.getSamples()[20], 0.1);
+  fractal.start(1);
 //  ASSERT_EQ(wave.getSamples()[40], 0.2);
   ASSERT_EQ(wave.getSamples()[60], 0.35); 
   ASSERT_EQ(wave.getSamples()[80], 0.5);  
 //  ASSERT_EQ(wave.getSamples()[100], 1.0);  // 0.0
 }
 
+
 TEST_F(fracSoundTest, level1FractalUsingPartsDown) {
 
-  Box box(  Range(0, 100),  Range(0.0, 1.0));
   Box exampleBox(Range(0.4, 0.8), Range(0.5, 0.2));
 
   Parts parts;
   parts.push_back(exampleBox);
   Wave wave;
   Fractal fractal(wave, parts);
-  fractal.run(box, 1);
+  fractal.start(1);
 //  ASSERT_EQ(wave.getSamples()[40], 0.5);  
   ASSERT_EQ(wave.getSamples()[60], 0.35); 
 }
@@ -125,10 +120,9 @@ TEST_F(fracSoundTest, level1FractalUsingPoints) {
   Fractal fractal(wave, points);
 
   fractal.start(1);
-//  wave.normalize();
   ASSERT_EQ(wave.getSamples()[ 0], 0.0);
-//  ASSERT_EQ(wave.getSamples()[ 1], 0.5);
-//  ASSERT_EQ(wave.getSamples()[ 2], 1.0);
+  ASSERT_EQ(wave.getSamples()[ 1], 0.005);
+  ASSERT_EQ(wave.getSamples()[ 2], 0.01);
   ASSERT_EQ(wave.getSamples()[20], 0.10);
   ASSERT_EQ(wave.getSamples()[40], 0.20);
   ASSERT_EQ(wave.getSamples()[60], 0.35); 
@@ -137,7 +131,7 @@ TEST_F(fracSoundTest, level1FractalUsingPoints) {
   ASSERT_EQ(wave.getSamples()[90], 0.25);  
   ASSERT_EQ(wave.getSamples()[100], 0.0);  
 } 
-*/
+
 
 TEST_F(fracSoundTest, level1) {
   Wave wave;
@@ -188,3 +182,20 @@ TEST_F(fracSoundTest, repeatTest) {
   i=i;
   ASSERT_EQ(i, 1);  
 }
+
+
+TEST_F(fracSoundTest, level1width1000) {
+  Wave wave;
+  vector<Box> parts;
+  Points points = {Point(0.5, 0.8)};
+  Fractal fractal(wave, points);
+  fractal.setPositions(Range(0,1000));
+  fractal.start(1);
+  ASSERT_EQ(wave.getSamples()[0], 0.0);
+  ASSERT_EQ(wave.getSamples()[250], 0.4);
+  ASSERT_EQ(wave.getSamples()[500], 0.8);
+  ASSERT_EQ(wave.getSamples()[1000], 0.0);  
+}
+
+
+

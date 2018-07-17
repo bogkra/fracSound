@@ -15,6 +15,7 @@ public:
   void rescale(Range outside);
   void rescale(double alpha);
   void moveDown();
+  void move(const double x);
 private:
   double begin_;  
   double end_;  

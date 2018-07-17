@@ -45,6 +45,11 @@ bool in(const double x, Range range) {
   return range.isBetween(x);
 }
 
+void Range::move(const double x) {
+  end_ += x;
+  begin_ += x;
+}
+
 
 
 
