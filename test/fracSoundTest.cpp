@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 #include <vector>
 #include "Wave.hpp"
+#include "WaveFile.hpp"
 #include "Incrementator.hpp"
 #include "Fractal.hpp"
 
@@ -85,7 +86,6 @@ TEST_F(fracSoundTest, level1trivial) {
 
 TEST_F(fracSoundTest, level1FractalUsingParts) {
 
- // Box box(  Range(0, 100),  Range(0.0, 1.0));
   Box exampleBox(Range(0.4, 0.8), Range(0.2, 0.5));
 
   Parts parts;
@@ -115,7 +115,6 @@ TEST_F(fracSoundTest, level1FractalUsingPartsDown) {
 
 TEST_F(fracSoundTest, level1FractalUsingPoints) {
   Wave wave;
-//  Box box(  Range(0, 100),  Range(0.0, 100));
   Points points = {Point(0.4, 0.2), Point(0.8, 0.5)};
   Fractal fractal(wave, points);
 
@@ -133,14 +132,15 @@ TEST_F(fracSoundTest, level1FractalUsingPoints) {
 } 
 
 
-TEST_F(fracSoundTest, level1) {
+TEST_F(fracSoundTest, below0) {
   Wave wave;
-  Points points = {Point(0.5, 0.8)};
+  Points points = {Point(0.5, -0.8)};
   Fractal fractal(wave, points);
   fractal.start(1);
   ASSERT_EQ(wave.getSamples()[0], 0.0);
-  ASSERT_EQ(wave.getSamples()[25], 0.4);
-  ASSERT_EQ(wave.getSamples()[50], 0.8);
+  ASSERT_EQ(wave.getSamples()[25], -0.4);
+  ASSERT_EQ(wave.getSamples()[50], -0.8);
+  ASSERT_EQ(wave.getSamples()[75], -0.4);
   ASSERT_EQ(wave.getSamples()[100], 0.0);  
 }
 
@@ -186,7 +186,6 @@ TEST_F(fracSoundTest, repeatTest) {
 
 TEST_F(fracSoundTest, level1width1000) {
   Wave wave;
-  vector<Box> parts;
   Points points = {Point(0.5, 0.8)};
   Fractal fractal(wave, points);
   fractal.setPositions(Range(0,1000));
@@ -199,7 +198,6 @@ TEST_F(fracSoundTest, level1width1000) {
 
 TEST_F(fracSoundTest, level1power2) {
   Wave wave;
-  vector<Box> parts;
   Points points = {Point(0.5, 0.8)};
   Fractal fractal(wave, points);
   fractal.setPositions(Range(0,1000));
@@ -212,5 +210,62 @@ TEST_F(fracSoundTest, level1power2) {
   ASSERT_EQ(wave.getSamples()[1000], 0.0);  
 }
 
+
+TEST_F(fracSoundTest, level1moved) {
+  Wave wave;
+  Points points = {Point(0.5, 0.8)};
+  Fractal fractal(wave, points);
+  fractal.setPositions(Range(1000,2000));
+  fractal.start(1);
+  ASSERT_EQ(wave.getSamples()[1000], 0.0);
+  ASSERT_EQ(wave.getSamples()[1250], 0.4);
+  ASSERT_EQ(wave.getSamples()[1500], 0.8);
+  ASSERT_EQ(wave.getSamples()[2000], 0.0);  
+}
+
+
+double rand01() {
+  const int big = 100000000;
+  return (double)(rand() % big) / (double)big;
+}
+
+TEST_F(fracSoundTest, audibleTest) {
+  Wave wave;
+//  vector<Box> parts;
+//  Points points = {Point(0.5, 0.8), Point(0.6, 0.1), Point(0.6746345, 1.121), Point(0.75858558, 0.3433)};
+  20 * [&]() {
+    Points points;// = {Point(0.0123123, 0.2),  Point(0.175858558, 0.7433), Point(0.2444, -0.9767), Point(0.63, 0.99), Point(0.7646345, -0.98)};
+    double x=0;
+    for (int i = 0; x<1.0 and i<10; i++) {
+      x += rand01() / 7.0;
+      double amplitude = 1.1*rand01();    
+      points.push_back(Point(x,amplitude));
+//      cout << "  " << x << " a:" << amplitude;
+    }
+//  Points points = {Point(0.5, 0.9)};
+    Fractal fractal(wave, points);
+    int start = rand01()*50000;
+    int end = start + rand01()*50000;  // 84000
+    fractal.setPositions(Range(start, end));
+    fractal.setPower(rand01());
+    fractal.start(5);
+  };
+  WaveFile waveFile("out.wav", &wave);
+  ASSERT_EQ(true, true);
+}
+
+/*
+TEST_F(fracSoundTest, level1file) {
+  Wave wave;
+  Points points = {Point(0.5, 0.8)};
+  Fractal fractal(wave, points);
+  fractal.start(1);
+  WaveFile waveFile("out4.wav", &wave);
+  ASSERT_EQ(wave.getSamples()[0], 0.0);
+  ASSERT_EQ(wave.getSamples()[25], 0.4);
+  ASSERT_EQ(wave.getSamples()[50], 0.8);
+  ASSERT_EQ(wave.getSamples()[100], 0.0);  
+}
+*/
 
 

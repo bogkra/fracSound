@@ -21,6 +21,7 @@ private:
   Wave & wave_;
   Range positions_ = {0, 100};
   double power_ = 1.0;  
+  double panorama = 0;
 
   Parts parts_;
   Points points_;

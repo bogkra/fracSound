@@ -37,7 +37,7 @@ class Wave {
 public: 
   Wave();
   ~Wave();
-  void writeToSamples();
+//  void writeToSamples();
   void sine(const Box& box);
   void line(const Box& box);
   void simpleSine(const double maxAmplitude);
@@ -46,7 +46,7 @@ public:
   Samples& getSamples()  {return samples_;};  
 
 private:
-  void writeToSample(int & moment);
+//  void writeToSample(int & moment);
   bool write(const int where, const double& what);
   void normalize(const double maxAmplitude);
   double maxAmplitude();

@@ -1,5 +1,5 @@
 #include <cmath>
-#include <iostream>
+
 #include "algorithm"
 #include "Wave.hpp"
 #include "Incrementator.hpp"
@@ -27,6 +27,7 @@ bool Wave::write(const int where, const double& what) {
   return false;
 }
 
+/*
 void Wave::writeToSample(int & moment) {
   int amplitude = (rand() % 1000000) * 0.0001;
   int period = rand() % 500;
@@ -44,6 +45,7 @@ void Wave::writeToSamples() {
     writeToSample(moment);
   };
 }
+*/
 
 void Wave::sine(const Box& box) {
   box.width() * [&] (int i)  {

@@ -1,11 +1,12 @@
 #include "WaveFile.hpp"
+#include "Incrementator.hpp"
 
 using namespace std;
 using namespace LittleEndianIo;
 using namespace Config;
 
 WaveFile::WaveFile(const std::string& fileName, Wave* pWave) {    
-  pWave->writeToSamples();
+//  pWave->writeToSamples();
 
   file.open(fileName, ios::binary);
   writeHeader();
@@ -22,11 +23,15 @@ WaveFile::WaveFile(const std::string& fileName, Wave* pWave) {
 void WaveFile::samplesToFile(Wave& wave) {
   const double maxAmplitude = 32767;  
   wave.normalize();  
-  for (const auto normalizedAmplitude: wave.getSamples())
-    for (auto position : positions) {
-       writeWord(file, (int)(normalizedAmplitude*maxAmplitude), 2);
-       (void)position;
-    }
+  for (auto normalizedAmplitude: wave.getSamples()) {
+  //  for (auto position : positions) {
+    2 * [&]() {
+      writeWord(file, (int)(normalizedAmplitude*maxAmplitude), 2);         
+  //       (void)position;
+    };
+ //   normalizedAmplitude = (int)(normalizedAmplitude*maxAmplitude);
+ //   cout << (int)(normalizedAmplitude*maxAmplitude) << " ";
+  }
 }
 
 

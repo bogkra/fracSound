@@ -2,7 +2,7 @@
 
 #include <fstream>
 #include "Wave.hpp"
-
+#include <iostream>
 
 namespace LittleEndianIo {
   template <typename Word>
@@ -33,4 +33,4 @@ private:
   void fixFileHeader(const size_t positionAfterData);
 };
 
-void doIt();
+//void doIt();
