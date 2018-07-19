@@ -25,10 +25,11 @@ void WaveFile::samplesToFile(Wave& wave) {
   wave.normalize();  
   for (auto normalizedAmplitude: wave.getSamples()) {
   //  for (auto position : positions) {
-    2 * [&]() {
-      writeWord(file, (int)(normalizedAmplitude*maxAmplitude), 2);         
+//    2 * [&]() {
+      writeWord(file, (int)(normalizedAmplitude.first * maxAmplitude), 2);         
+      writeWord(file, (int)(normalizedAmplitude.second * maxAmplitude), 2);         
   //       (void)position;
-    };
+  //  };
  //   normalizedAmplitude = (int)(normalizedAmplitude*maxAmplitude);
  //   cout << (int)(normalizedAmplitude*maxAmplitude) << " ";
   }

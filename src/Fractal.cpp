@@ -24,16 +24,17 @@ void Fractal::pointToPart(Points::iterator it) {
   parts_.push_back(tempBox); 
 }
 
+void Fractal::start(const int level) {
+  Box box(Range(0,1), Range(0,0)); 
+  run(box, level);
+}
 
 void Fractal::run(const Box & outsideBox, const int level) {
-//  if (level == 0) {
-   Box drawBox = outsideBox;
-   drawBox.widthRescale(positions_.length());   
-   drawBox.heightRescale(power_);   
-   drawBox.move(positions_.getBegin()); 
-   wave_.line(drawBox);
-//  wave_.sine(drawBox);
-//  }
+  Box drawBox = outsideBox;
+  drawBox.widthRescale(positions_.length());   
+  drawBox.heightRescale(power_);   
+  drawBox.move(positions_.getBegin()); 
+  wave_.line(drawBox, panorama_);
   if (level > 0) 
     for (Box part : parts_) {    
       Box newBox = part;
@@ -43,9 +44,24 @@ void Fractal::run(const Box & outsideBox, const int level) {
     }
 }
 
-void Fractal::start(const int level) {
-  Box box(Range(0,1), Range(0,0)); 
-  run(box, level);
+
+void Fractal::setPanorama(const Stereo & panorama) {
+  double value = panorama.first;
+//  if (Range(0,1).isBetween(value))
+  panorama_.first = value;
+//  else if (value<0) panorama_.first = 0;
+//  else if (value>1) panorama_.first = 1;
+
+  double value2 = panorama.second;
+//  if (Range(0,1).isBetween(value2))
+    panorama_.second = value2;
+//  else if (value2<0) panorama_.second = 0;
+//  else if (value2>1) panorama_.second = 1;
+//  if (panorama.first != 1 ) {
+//    cout << "  left= " << panorama.first << " right = " << panorama.second;
+//    cout << "  left= " << panorama_.first << " right = " << panorama_.second;
+//  }
+
 }
 
 

@@ -1,5 +1,5 @@
 #include <cmath>
-
+#include <iostream>
 #include "algorithm"
 #include "Wave.hpp"
 #include "Incrementator.hpp"
@@ -11,16 +11,17 @@ using namespace Config;
 
 Wave::Wave() {
   srand(time(NULL));
-  samples_.fill(0.0);
+  samples_.fill(Stereo(0.0, 0.0));
 }
 
 Wave::~Wave() {
   delete pSamples;
 }
 
-bool Wave::write(const int where, const double& what) {
+bool Wave::write(const int where, const double& what, const Stereo panorama = Stereo(1,1)) {
   if (where < MAX_NO_SAMPLES and where >= 0) {
-    samples_.at(where) += what;
+    samples_.at(where).first += what * panorama.first;
+    samples_.at(where).second += what * panorama.second;
 //    cout << where << ":" << what << " ";
     return true;
   } 
@@ -54,13 +55,14 @@ void Wave::sine(const Box& box) {
   };
 }
 
-void Wave::line(const Box& box) {
+void Wave::line(const Box& box, const Stereo panorama) {
   const int begin = box.getXRange().min();
   const int   end = box.getXRange().max();    
 //TODO: opposite direction !?
 
+
   for (Incrementator tempWidth; tempWidth.repeat(end - begin);) {
-     write(begin + tempWidth, box.getYRange().getBegin() + box.height() * tempWidth / (end - begin));
+     write(begin + tempWidth, box.getYRange().getBegin() + box.height() * tempWidth / (end - begin), panorama);
   }
 }
 
@@ -80,17 +82,20 @@ void Wave::normalize() {
     normalize(maxAmpl);
 }
 
-bool absCompare(double a, double b) {
-  return abs(a) < abs(b);
+double Wave::maxAmplitude() {
+  Stereo result = *max_element(samples_.begin(), samples_.end(), absCompare);
+  return max(result.first, result.second);
 }
 
-double Wave::maxAmplitude() {
-  return *max_element(samples_.begin(),samples_.end(), absCompare);
+bool absCompare(Stereo a, Stereo b) {
+  return max(abs(a.first), abs(a.second)) < max(abs(b.first), abs(b.second));
 }
 
 void Wave::normalize(const double maxAmplitude) {
-  for (auto& amplitude : samples_) 
-    amplitude /= maxAmplitude;
+  for (auto& amplitude : samples_) {
+    amplitude.first /= maxAmplitude;
+    amplitude.second /= maxAmplitude;
+  }
 }
 
 bool isVerySmall(const double number) {

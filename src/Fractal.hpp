@@ -16,12 +16,13 @@ public:
   void setPositions(const Range & positions) {positions_ = positions;};
   void setPower(const double & power) {power_ = power;};
   void start(const int level);
+  void setPanorama(const Stereo & panorama);
 
 private:
   Wave & wave_;
   Range positions_ = {0, 100};
-  double power_ = 1.0;  
-  double panorama = 0;
+  double power_ = 1.0;
+  Stereo panorama_ = Stereo(1, 1);  
 
   Parts parts_;
   Points points_;
