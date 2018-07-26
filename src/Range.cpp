@@ -17,12 +17,21 @@ double Range::max() const {
   return std::max(begin_, end_);
 }
 
-bool Range::isBetween(double x) {
-  return (begin_ >= x and x<= end_)   or
-         (end_   >= x and x<= begin_);
+bool Range::isBetween(const double & x) {
+  return (begin_ <= x and x <= end_)   or
+         (end_   <= x and x <= begin_);
 }
 
-double Range::proportionallyBetween(double & alpha) {
+bool Range::intoBoundaries(double & x) {
+  if (not isBetween(x)) {
+    x = std::max(x, min());
+    x = std::min(x, max());
+    return true;
+  }    
+  return false;
+}
+
+double Range::proportionallyBetween(const double & alpha) {
   return begin_ + alpha * length();
 }
 

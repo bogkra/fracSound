@@ -30,13 +30,7 @@ void Fractal::start(const int level) {
 }
 
 void Fractal::run(const Box & outsideBox, const int level) {
-  Box drawBox = outsideBox;
-  drawBox.widthRescale(positions_.length());   
-  drawBox.heightRescale(power_);   
-  drawBox.move(positions_.getBegin()); 
-  wave_.line(drawBox, panorama_);
-
-
+  line(outsideBox);
   if (level > 0) {
     Box newBox(Range(0,0), Range(0,0));
     double alpha;
@@ -49,19 +43,20 @@ void Fractal::run(const Box & outsideBox, const int level) {
   }
 }
 
+void Fractal::line(const Box & outsideBox) {
+  Box drawBox = outsideBox;
+  drawBox.widthRescale(positions_.length());   
+  drawBox.heightRescale(power_);   
+  drawBox.move(positions_.getBegin()); 
+  wave_.line(drawBox, panorama_);  
+}
 
 void Fractal::setPanorama(const Stereo & panorama) {
-//  double value = panorama.first;
-//  if (Range(0,1).isBetween(value))
-
   panorama_.first = panorama.first;
-//  else if (value<0) panorama_.first = 0;
-//  else if (value>1) panorama_.first = 1;
-
-//  double value2 = panorama.second;
-//  if (Range(0,1).isBetween(value2))
+  Range range01(0.0, 1.0);
+  range01.intoBoundaries(panorama_.first);
   panorama_.second = panorama.second;
-
+  range01.intoBoundaries(panorama_.second);
 }
 
 

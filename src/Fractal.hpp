@@ -28,6 +28,7 @@ private:
   Points points_;
 
   void run(const Box & box, const int level);
+  void line(const Box & outsideBox);
   void pointToPart(const Points::iterator & it);
 };
 

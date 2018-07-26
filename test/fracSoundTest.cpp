@@ -237,6 +237,15 @@ TEST_F(fracSoundTest, panorama) {
   ASSERT_EQ(wave.getSamples()[2000].first, 0.0);  
 }
 
+TEST_F(fracSoundTest, isBetween) {
+  ASSERT_TRUE (Range(0, 2).isBetween(1)); 
+}
+
+TEST_F(fracSoundTest, intoBoundaries) {
+  double x = 3.0;
+  Range(0, 2).intoBoundaries(x);
+  ASSERT_EQ(x, 2);
+}
 
 double rand01() {
   const int big = 100000000;

@@ -6,8 +6,6 @@ using namespace LittleEndianIo;
 using namespace Config;
 
 WaveFile::WaveFile(const std::string& fileName, Wave* pWave) {    
-//  pWave->writeToSamples();
-
   file.open(fileName, ios::binary);
   writeHeader();
   size_t dataChunkPos = file.tellp();
@@ -24,15 +22,8 @@ void WaveFile::samplesToFile(Wave& wave) {
   const double maxAmplitude = 32767;  
   wave.normalize();  
   for (auto normalizedAmplitude: wave.getSamples()) {
-  //  for (auto position : positions) {
-//    2 * [&]() {
       writeWord(file, (int)(normalizedAmplitude.first * maxAmplitude), 2);         
       writeWord(file, (int)(normalizedAmplitude.second * maxAmplitude), 2);         
-   //   cout << (int)(normalizedAmplitude.first*maxAmplitude) << " ";
-  //       (void)position;
-  //  };
- //   normalizedAmplitude = (int)(normalizedAmplitude*maxAmplitude);
- //   cout << (int)(normalizedAmplitude*maxAmplitude) << " ";
   }
 }
 
@@ -53,13 +44,12 @@ void WaveFile::writePsmIntegerSamples() {
   writeToFile(1, 2 );  
 }
 
-
 void WaveFile::writeBytesPerSecond() {
   writeToFile(samplesPerSecond * bytesPerSample * numberOfChannels, 4 );  
 }
 
 void WaveFile::writeDataBlockSize() {
-  writeToFile(bytesPerSample * numberOfChannels, 2 );  
+  writeToFile(bytesPerSample * numberOfChannels, 2 ) ;  
 }
 	
 void WaveFile::writeHeader() {

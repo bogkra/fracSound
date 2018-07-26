@@ -20,6 +20,7 @@ Wave::~Wave() {
 
 bool Wave::write(const int where, const double& what, const Stereo & panorama = Stereo(1,1)) {
   if (where < MAX_NO_SAMPLES and where >= 0) {
+//  if (Range(0, MAX_NO_SAMPLES).isBetween(where)) {
     samples_.at(where).first += what * panorama.first;
     samples_.at(where).second += what * panorama.second;
     return true;
@@ -41,9 +42,8 @@ void Wave::line(const Box & box, const Stereo & panorama) {
   const int   end = box.getXRange().max();    
 //TODO: opposite direction !?
 
-  for (int tempWidth = 1 ; tempWidth<= end - begin; tempWidth++ ) {
+  for (int tempWidth = 1 ; tempWidth<= end - begin; tempWidth++ ) 
      write(begin + tempWidth, box.getYRange().getBegin() + box.height() * tempWidth / (end - begin), panorama);
-  }
 }
 
 void Wave::simpleSine(const double & maxAmplitude) {

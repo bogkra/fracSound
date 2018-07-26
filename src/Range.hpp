@@ -10,8 +10,9 @@ public:
   bool isForward() const;
   double min() const;
   double max() const;
-  bool isBetween(double x);
-  double proportionallyBetween(double & alpha);
+  bool isBetween(const double & x);
+  bool intoBoundaries(double & x);
+  double proportionallyBetween(const double & alpha);
   void rescale(Range outside);
   void rescale(const double & alpha);
   void moveDown();

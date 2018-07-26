@@ -6,8 +6,6 @@ public:
   Box(const Range & xRange, const Range & yRange) : xRange_(xRange), yRange_(yRange) {};
   Range getXRange() const {return xRange_;};
   Range getYRange() const {return yRange_;};
-  void setXRange(const Range & r) { xRange_ = r;};
-  void setYRange(const Range & r) { yRange_ = r;};
   double width() const;
   double height() const;
   bool isForward() const;
