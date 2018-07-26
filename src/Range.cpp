@@ -17,12 +17,12 @@ double Range::max() const {
   return std::max(begin_, end_);
 }
 
-bool Range::isBetween(const double x) {
+bool Range::isBetween(double x) {
   return (begin_ >= x and x<= end_)   or
          (end_   >= x and x<= begin_);
 }
 
-double Range::proportionallyBetween(const double alpha) {
+double Range::proportionallyBetween(double & alpha) {
   return begin_ + alpha * length();
 }
 
@@ -31,7 +31,7 @@ void Range::rescale(Range outside) {
   end_   = outside.proportionallyBetween(end_);
 }
 
-void Range::rescale(double alpha) { 
+void Range::rescale(const double & alpha) { 
   begin_ *= alpha;
   end_ *= alpha;
 }
@@ -41,11 +41,11 @@ void Range::moveDown() {
   begin_ = 0;
 }
 
-bool in(const double x, Range range) {
+bool in(const double & x, Range & range) {
   return range.isBetween(x);
 }
 
-void Range::move(const double x) {
+void Range::move(const double & x) {
   end_ += x;
   begin_ += x;
 }

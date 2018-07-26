@@ -18,25 +18,25 @@ void Box::rescale(Box outside) {
   yRange_.rescale(outside.getYRange());
 }
 
-void Box::equallyRescale(const double alpha) {
+void Box::equallyRescale(const double & alpha) {
   xRange_.rescale(alpha);
   yRange_.rescale(alpha);
 }
 
 
-void Box::widthRescale(const double alpha) {
+void Box::widthRescale(const double & alpha) {
   xRange_.rescale(alpha);
 }
 
-void Box::heightRescale(const double alpha) {
+void Box::heightRescale(const double & alpha) {
   yRange_.rescale(alpha);
 }
 
-void Box::widthyRescale(const Box & outside, const double alpha) {
+void Box::widthyRescale(const Box & outside, const double & alpha) {
   xRange_.rescale(outside.getXRange());
   yRange_.rescale(alpha); 
 }
 
-void Box::move(const double x) {
+void Box::move(const double & x) {
   xRange_.move(x);
 }

@@ -33,4 +33,3 @@ private:
   void fixFileHeader(const size_t positionAfterData);
 };
 
-//void doIt();

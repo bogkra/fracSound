@@ -29,10 +29,6 @@ namespace Config {
   const std::vector<Position> positions = {Position::leftPos, Position::rightPos};
 }
 
-//using Samples = std::array<double, Config::MAX_NO_SAMPLES> ;
-//class Stereo {
-//}
-
 using Stereo  = std::pair<double, double>;
 using Samples = std::array<Stereo, Config::MAX_NO_SAMPLES> ;
 
@@ -41,26 +37,22 @@ class Wave {
 public: 
   Wave();
   ~Wave();
-//  void writeToSamples();
   void sine(const Box& box);
-  void line(const Box& box, const Stereo panorama = Stereo(1,1)) ;
-  void simpleSine(const double maxAmplitude);
+  void line(const Box& box, const Stereo & panorama = Stereo(1,1)) ;
+  void simpleSine(const double & maxAmplitude);
   void normalize();
 
   Samples& getSamples()  {return samples_;};  
 
 private:
-//  void writeToSample(int & moment);
-  bool write(const int where, const double& what, const Stereo panorama);
-  void normalize(const double maxAmplitude);
+  bool write(const int where, const double & what, const Stereo & panorama);
+  void normalize(const double & maxAmplitude);
   double maxAmplitude();
 
   Samples * pSamples {new Samples};
   Samples & samples_ = *pSamples;  
-//  Samples samples_;  
-
 };
 
-bool absCompare(Stereo a, Stereo b);
-bool isVerySmall(const double number);
+bool absCompare(const Stereo & a, const Stereo & b);
+bool isVerySmall(const double & number);
 

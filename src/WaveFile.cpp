@@ -28,6 +28,7 @@ void WaveFile::samplesToFile(Wave& wave) {
 //    2 * [&]() {
       writeWord(file, (int)(normalizedAmplitude.first * maxAmplitude), 2);         
       writeWord(file, (int)(normalizedAmplitude.second * maxAmplitude), 2);         
+   //   cout << (int)(normalizedAmplitude.first*maxAmplitude) << " ";
   //       (void)position;
   //  };
  //   normalizedAmplitude = (int)(normalizedAmplitude*maxAmplitude);

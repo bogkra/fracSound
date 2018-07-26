@@ -3,19 +3,19 @@
 class Range {
 public:
   Range() {};
-  Range(const double begin, const double end) : begin_(begin), end_(end) {};
+  Range(const double & begin, const double & end) : begin_(begin), end_(end) {};
   double getBegin() const {return begin_;};
   double getEnd() const {return end_;};
   double length() const;
   bool isForward() const;
   double min() const;
   double max() const;
-  bool isBetween(const double x);
-  double proportionallyBetween(const double alpha);
+  bool isBetween(double x);
+  double proportionallyBetween(double & alpha);
   void rescale(Range outside);
-  void rescale(double alpha);
+  void rescale(const double & alpha);
   void moveDown();
-  void move(const double x);
+  void move(const double & x);
 
 private:
   double begin_;  

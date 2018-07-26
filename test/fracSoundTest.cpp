@@ -1,5 +1,7 @@
 #include <gtest/gtest.h>
 #include <vector>
+#include <ctime>
+#include <chrono>
 #include "Wave.hpp"
 #include "WaveFile.hpp"
 #include "Incrementator.hpp"
@@ -245,43 +247,57 @@ TEST_F(fracSoundTest, audibleTest) {
   Wave wave;
 //  vector<Box> parts;
 //  Points points = {Point(0.5, 0.8), Point(0.6, 0.1), Point(0.6746345, 1.121), Point(0.75858558, 0.3433)};
-  10 * [&] {
-    Points points;// = {Point(0.0123123, 0.2),  Point(0.175858558, 0.7433), Point(0.2444, -0.9767), Point(0.63, 0.99), Point(0.7646345, -0.98)};
+  
+  std::clock_t c_start = std::clock();
+  auto t_start = std::chrono::high_resolution_clock::now();  
+  
+
+  if (true) {
+  const int howManyTimes = 40;
+  const int depth = 5;
+  howManyTimes * [&] {
+    Points points;
+   // TODO : examples, not random, like  = {Point(0.0123123, 0.2),  Point(0.175858558, 0.7433), Point(0.2444, -0.9767), Point(0.63, 0.99), Point(0.7646345, -0.98)};
     double x=0;
     for (int i = 0; x<1.0 and i<10; i++) {
-      x += rand01() / 5.0;
-      double amplitude = 1.0*rand01();    
+      x += (rand01() + rand01() + rand01() )  / 10.0;
+      const double maximum = 0.803;
+      double amplitude = maximum * (2.0*rand01() - 1.0);    
       points.push_back(Point(x,amplitude));
-//      cout << "  " << x << " a:" << amplitude;
     }
-//  Points points = {Point(0.5, 0.9)};
     Fractal fractal(wave, points);
     int start = rand01()*80000;
-    int end = start + rand01()*50000;  // 84000
+    int end = start + (rand01() + rand01())*35000;  // 84000
     fractal.setPositions(Range(start, end));
     fractal.setPower(rand01());
     double left = rand01();
     double right = rand01();
     fractal.setPanorama(Stereo(left, right));
-//    cout << " left= " << left << " right = " << right;
-    fractal.start(5);
+    fractal.start(depth);
   };
+  std::clock_t c_end = std::clock();
+  auto t_end = std::chrono::high_resolution_clock::now();
+ 
+  std::cout << std::fixed << std::setprecision(5) << "CPU time used: "
+            << 1000.0*(c_end-c_start) / CLOCKS_PER_SEC / howManyTimes << " ms\n"
+            << "Wall clock time passed: "
+            << std::chrono::duration<double, std::milli>(t_end-t_start).count() / howManyTimes
+            << " ms\n";
+  }
+  else {
+    const int length = 100;
+    for (int i=0; i< 87000; i+=length) {
+      Range xs(i, i+length);
+      Range ys(1, -1);
+      Box box(xs, ys);
+      wave.sine(box);
+    }
+    wave.normalize();
+  }
+
+
+ 
   WaveFile waveFile("out.wav", &wave);
   ASSERT_EQ(true, true);
 }
-
-/*
-TEST_F(fracSoundTest, level1file) {
-  Wave wave;
-  Points points = {Point(0.5, 0.8)};
-  Fractal fractal(wave, points);
-  fractal.start(1);
-  WaveFile waveFile("out4.wav", &wave);
-  ASSERT_EQ(wave.getSamples()[0].first, 0.0);
-  ASSERT_EQ(wave.getSamples()[25].first, 0.4);
-  ASSERT_EQ(wave.getSamples()[50].first, 0.8);
-  ASSERT_EQ(wave.getSamples()[100].first, 0.0);  
-}
-*/
-
 
