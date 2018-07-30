@@ -22,8 +22,8 @@ void WaveFile::samplesToFile(Wave& wave) {
   const double maxAmplitude = 32767;  
   wave.normalize();  
   for (auto normalizedAmplitude: wave.getSamples()) {
-      writeWord(file, (int)(normalizedAmplitude.first * maxAmplitude), 2);         
-      writeWord(file, (int)(normalizedAmplitude.second * maxAmplitude), 2);         
+      writeWord(file, (int)(normalizedAmplitude.left * maxAmplitude), 2);         
+      writeWord(file, (int)(normalizedAmplitude.right * maxAmplitude), 2);         
   }
 }
 

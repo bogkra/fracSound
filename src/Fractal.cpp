@@ -52,11 +52,11 @@ void Fractal::line(const Box & outsideBox) {
 }
 
 void Fractal::setPanorama(const Stereo & panorama) {
-  panorama_.first = panorama.first;
+  panorama_.left = panorama.left;
   Range range01(0.0, 1.0);
-  range01.intoBoundaries(panorama_.first);
-  panorama_.second = panorama.second;
-  range01.intoBoundaries(panorama_.second);
+  range01.intoBoundaries(panorama_.left);
+  panorama_.right = panorama.right;
+  range01.intoBoundaries(panorama_.right);
 }
 
 

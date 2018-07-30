@@ -29,8 +29,19 @@ namespace Config {
   const std::vector<Position> positions = {Position::leftPos, Position::rightPos};
 }
 
-using Stereo  = std::pair<double, double>;
+//using Stereo  = std::pair<double, double>;
+
+
+class Stereo {//: std::pair<double, double> {
+public:
+  Stereo() {};
+  Stereo(const double & l, const double & r) : left(l), right(r) {};
+  double left = 1.0;
+  double right = 1.0;
+};
+
 using Samples = std::array<Stereo, Config::MAX_NO_SAMPLES> ;
+
 
 
 class Wave {

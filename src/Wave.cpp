@@ -21,8 +21,8 @@ Wave::~Wave() {
 bool Wave::write(const int where, const double& what, const Stereo & panorama = Stereo(1,1)) {
   if (where < MAX_NO_SAMPLES and where >= 0) {
 //  if (Range(0, MAX_NO_SAMPLES).isBetween(where)) {
-    samples_.at(where).first += what * panorama.first;
-    samples_.at(where).second += what * panorama.second;
+    samples_.at(where).left += what * panorama.left;
+    samples_.at(where).right += what * panorama.right;
     return true;
   } 
   return false;
@@ -48,8 +48,8 @@ void Wave::line(const Box & box, const Stereo & panorama) {
 
 void Wave::simpleSine(const double & maxAmplitude) {
   const double c4Frequency = 261.626,  
-                   seconds = 2.5; 
-  int numberOfSamples = seconds * samplesPerSecond;  
+                   rights = 2.5; 
+  int numberOfSamples = rights * samplesPerSecond;  
   numberOfSamples * [&](int i) {
     double value = sin( 2.0 * pi * i * c4Frequency / samplesPerSecond );
     write(i, maxAmplitude * value);
@@ -64,17 +64,17 @@ void Wave::normalize() {
 
 double Wave::maxAmplitude() {
   Stereo result = *max_element(samples_.begin(), samples_.end(), absCompare);
-  return max(result.first, result.second);
+  return max(result.left, result.right);
 }
 
 bool absCompare(const Stereo & a, const Stereo & b) {
-  return max(abs(a.first), abs(a.second)) < max(abs(b.first), abs(b.second));
+  return max(abs(a.left), abs(a.right)) < max(abs(b.left), abs(b.right));
 }
 
 void Wave::normalize(const double & maxAmplitude) {
   for (auto& amplitude : samples_) {
-    amplitude.first /= maxAmplitude;
-    amplitude.second /= maxAmplitude;
+    amplitude.left /= maxAmplitude;
+    amplitude.right /= maxAmplitude;
   }
 }
 
