@@ -6,11 +6,20 @@
 
 using namespace std;
 
+Fractal::Fractal(Wave & wave) : wave_(wave) {
+}
+
 Fractal::Fractal(Wave & wave, const Parts & parts) : wave_(wave), parts_(parts) {
 }
 
 
 Fractal::Fractal(Wave & wave,  const Points & points) : wave_(wave), points_(points) {
+  setPoints(points);
+}
+
+
+void Fractal::setPoints(const Points & points) {
+  points_ = points;
   points_.insert(points_.begin(), Point(0,0)); 
   points_.push_back(Point(1, 0)); 
   for (auto it = points_.begin();  next(it) != points_.end(); it++) 

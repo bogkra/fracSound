@@ -4,7 +4,7 @@
 class Accumulator : Incrementator {
 public:
   Accumulator operator+= (int i);
-  Accumulator operator+= (Accumulator a);
+//  Accumulator operator+= (Accumulator a);
   Accumulator operator=  (int  i);
   Accumulator operator+  (int i);
   Accumulator operator+ (Accumulator const& accu) const;

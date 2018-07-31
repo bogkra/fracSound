@@ -53,7 +53,7 @@ public:
   void simpleSine(const double & maxAmplitude);
   void normalize();
 
-  Samples& getSamples()  {return samples_;};  
+  const Samples& getSamples()  {return samples_;};  
 
 private:
   bool write(const int where, const double & what, const Stereo & panorama);

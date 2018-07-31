@@ -5,9 +5,9 @@ Accumulator Accumulator::operator+= (int i) {
   return *this;
 }
 
-Accumulator Accumulator::operator+= (Accumulator a) { 
-  return  *this + a; 
-}
+//Accumulator Accumulator::operator+= (Accumulator a) { 
+//  return  (*this) + a; 
+//}
 
 Accumulator Accumulator::operator= (int i) { 
   value_ = i; 
