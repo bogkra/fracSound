@@ -1,8 +1,8 @@
 #pragma once
 
 #include <fstream>
-#include "Wave.hpp"
 #include <iostream>
+#include "Wave.hpp"
 
 namespace LittleEndianIo {
   template <typename Word>
@@ -16,18 +16,13 @@ namespace LittleEndianIo {
 class WaveFile {
 public:
   WaveFile(const std::string& fileName, Wave* pWave);    
+  void writeToFile(const int value, const unsigned size);
+  std::ofstream & getFile() { return file; };
  
 private:
   std::ofstream file;
 
-  void writeToFile(const int value, const unsigned size);
-  void writeBytesPerSecond();
-  void writeDataBlockSize();
   void samplesToFile(Wave& wave);
-  void writeHeader();
-  void writeEmptyChunkSize();
-  void writeNoExtensionData();
-  void writePsmIntegerSamples();
   void writeDataChunkHeader();
   void fixDataChunkHeader(const size_t dataChunkPos, const size_t positionAfterData);
   void fixFileHeader(const size_t positionAfterData);

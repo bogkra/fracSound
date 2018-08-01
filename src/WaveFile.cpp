@@ -1,13 +1,13 @@
 #include "WaveFile.hpp"
 #include "Incrementator.hpp"
+#include "FileHeader.hpp"
 
 using namespace std;
 using namespace LittleEndianIo;
-using namespace Config;
 
 WaveFile::WaveFile(const std::string& fileName, Wave* pWave) {    
   file.open(fileName, ios::binary);
-  writeHeader();
+  FileHeader fileHeader(this);  
   size_t dataChunkPos = file.tellp();
   writeDataChunkHeader(); 
 
@@ -27,41 +27,9 @@ void WaveFile::samplesToFile(Wave& wave) {
   }
 }
 
-void WaveFile::writeHeader() {
-  writeEmptyChunkSize();
-  writeNoExtensionData();
-  writePsmIntegerSamples();
-  writeToFile(numberOfChannels, 2 );  
-  writeToFile(samplesPerSecond, 4 );  
-  writeBytesPerSecond(); 
-  writeDataBlockSize(); 
-  writeToFile(bitsPerSample, 2 );  
-}
-
-void WaveFile::writeEmptyChunkSize() {
-  file << "RIFF----WAVEfmt "; 
-}
-
-void WaveFile::writeNoExtensionData() {
-  writeToFile(16, 4 );  
-}
-
-void WaveFile::writePsmIntegerSamples() {
-  writeToFile(1, 2 );  
-}
-
 void WaveFile::writeToFile(const int value, const unsigned size) {
   writeWord(file, value, size);
 }
-
-void WaveFile::writeBytesPerSecond() {
-  writeToFile(samplesPerSecond * bytesPerSample * numberOfChannels, 4 );  
-}
-
-void WaveFile::writeDataBlockSize() {
-  writeToFile(bytesPerSample * numberOfChannels, 2 ) ;  
-}
-	
 
 void WaveFile::writeDataChunkHeader() {
   file << "data----";  
