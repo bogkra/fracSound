@@ -1,8 +1,6 @@
 #pragma once
 
 #include <array>
-#include <vector>
-#include <cmath>
 #include <utility>
 #include "Box.hpp"
 #include "Stereo.hpp"
@@ -14,7 +12,8 @@ class Wave {
 public: 
   Wave();
   ~Wave();
-  void sine(const Box& box);
+  void sine(const Box& box, const Stereo & panorama);
+  void halfSine(const Box& box, const Stereo & panorama);
   void line(const Box& box, const Stereo & panorama = Stereo(1,1)) ;
   void simpleSine(const double & maxAmplitude);
   void normalize();

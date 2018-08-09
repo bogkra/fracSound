@@ -50,7 +50,7 @@ TEST_F(fracSoundTest, sine) {
   Range xs(0, 100);
   Range ys(0.0, 123.456);
   Box box(xs, ys);
-  wave.sine(box);
+  wave.sine(box, Stereo(1,1));
 
   wave.normalize();
   test( 0, 0.0);
@@ -64,11 +64,11 @@ TEST_F(fracSoundTest, twoSines) {
   Range ys(0.0, 123.456);
   Box box1(xs1, ys);
   Wave wave;
-  wave.sine(box1);
+  wave.sine(box1, Stereo(1,1));
 
   Range xs2(100, 200);
   Box box2(xs2, ys);
-  wave.sine(box2);
+  wave.sine(box2, Stereo(1,1));
 
   wave.normalize();
   test(   0, 0.0);
@@ -291,6 +291,20 @@ TEST_F(fracSoundTest, intoBoundaries) {
   ASSERT_EQ(x, 2);
 }
 
+TEST_F(fracSoundTest, rangeLength) {
+  Range r(40,55);
+  ASSERT_EQ(r.length(), 15);
+}
+
+TEST_F(fracSoundTest, boxWidth) {
+  Range x(40,55);
+  Range y(10,55);
+  Box b(x,y);
+   
+  ASSERT_EQ(b.width(), 15);
+  ASSERT_EQ(b.height(), 45);
+}
+
 double rand01() {
   const int big = 100000000;
   return (double)(rand() % big) / (double)big;
@@ -306,27 +320,39 @@ TEST_F(fracSoundTest, audibleTest) {
   
   if (true) {
   const int howManyTimes = 40;
-  const int depth = 5;
+  const int depth = 3;
   howManyTimes * [&] {
     Points points;
    // TODO : examples, not random but REPEAT! = {Point(0.0123123, 0.2),  Point(0.175858558, 0.7433), Point(0.2444, -0.9767), Point(0.63, 0.99), Point(0.7646345, -0.98)};
     
     double x=0;
-    for (int i = 0; x<1.0 and i<10; i++) {
-      x += (rand01() + rand01() + rand01() )  / 10.0;
+    for (int i = 0; x<1.0 and i<11; i++) {
+//      x += (rand01() + rand01() + rand01() )  / 10.0;
+      x += 0.001 + (rand01() )  / 8.0;
       const double maximum = 0.803;
       double amplitude = maximum * (2.0*rand01() - 1.0);    
       points.push_back(Point(x,amplitude));
     }
     Fractal fractal(wave, points);
+//    fractal.setLineFunction(&Wave::sine);
     int start = rand01()*80000;
-    int end = start + (rand01() + rand01())*35000;  // 84000
+    int end = start + 1 + (rand01() + rand01())*2500;  // 84000
     fractal.setPositions(Range(start, end));
     fractal.setPower(rand01());
     double left = rand01();
     double right = rand01();
     fractal.setPanorama(Stereo(left, right));
     fractal.start(depth);
+
+    int diff = end - start;
+
+    10 * [&]() {
+      start += diff;
+      end += diff;
+      fractal.setPositions(Range(start, end));
+      fractal.start(depth);
+    };
+
   };
   std::clock_t c_end = std::clock();
   auto t_end = std::chrono::high_resolution_clock::now();
@@ -339,11 +365,27 @@ TEST_F(fracSoundTest, audibleTest) {
   }
   else {
     const int length = 100;
+    const int depth = 5	;
+    Points points = { Point(0.11231, 0.7), 
+                      Point(0.4561, -0.3), 
+                      Point(0.4571, 0.7343), 
+ 		      Point(0.8571, -0.7343), 
+                      Point(0.8771, -0.1343),  
+                      Point(0.9571, 0.7343),
+                      Point(0.9871, 0.7343),
+                      Point(0.9971, 0.7343)
+    };
+//    Points points = {Point(0.5, 0.7) };
+    Fractal fractal(wave, points);
+    fractal.setLineFunction(&Wave::halfSine);
     for (int i=0; i< 87000; i+=length) {
-      Range xs(i, i+length);
+/*      Range xs(i, i+length);
       Range ys(1, -1);
       Box box(xs, ys);
-      wave.sine(box);
+      wave.sine(box);*/
+      fractal.setPositions(Range(i, i+length));
+
+      fractal.start(depth);
     }
     wave.normalize();
   }

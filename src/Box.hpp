@@ -8,9 +8,6 @@ public:
   Range getYRange() const {return yRange_;};
   double width() const;
   double height() const;
-  bool isForward() const;
-  void rescale(Box outside);
-  void equallyRescale(const double & alpha);
   void widthRescale(const double & alpha);
   void heightRescale(const double & alpha);
   void widthyRescale(const Box & outside, const double & alpha);

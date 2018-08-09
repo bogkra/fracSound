@@ -1,8 +1,6 @@
 #pragma once
 
 #include "WaveFile.hpp"
-#include <fstream>
-#include <iostream>
 
 class FileHeader {
 public:

@@ -3,20 +3,12 @@
 #include <algorithm>
 #include "Fractal.hpp"
 
-
 using namespace std;
 
-Fractal::Fractal(Wave & wave) : wave_(wave) {
-}
-
-Fractal::Fractal(Wave & wave, const Parts & parts) : wave_(wave), parts_(parts) {
-}
-
-
 Fractal::Fractal(Wave & wave,  const Points & points) : wave_(wave), points_(points) {
+  lineFunction_  = &Wave::line;
   setPoints(points);
 }
-
 
 void Fractal::setPoints(const Points & points) {
   points_ = points;
@@ -52,12 +44,12 @@ void Fractal::run(const Box & outsideBox, const int level) {
   }
 }
 
-void Fractal::line(const Box & outsideBox) {
+void Fractal::line(const Box & outsideBox) { 
   Box drawBox = outsideBox;
   drawBox.widthRescale(positions_.length());   
   drawBox.heightRescale(power_);   
   drawBox.move(positions_.getBegin()); 
-  wave_.line(drawBox, panorama_);  
+  (wave_.*lineFunction_)(drawBox, panorama_);
 }
 
 void Fractal::setPanorama(const Stereo & panorama) {
@@ -67,6 +59,3 @@ void Fractal::setPanorama(const Stereo & panorama) {
   panorama_.right = panorama.right;
   range01.intoBoundaries(panorama_.right);
 }
-
-
-

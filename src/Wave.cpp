@@ -7,7 +7,6 @@
 using namespace std;
 using namespace Config;
 
-
 Wave::Wave() {
   srand(time(NULL));
 //  srand(9);
@@ -19,8 +18,7 @@ Wave::~Wave() {
 }
 
 bool Wave::write(const int where, const double& what, const Stereo & panorama = Stereo(1,1)) {
-  if (where < MAX_NO_SAMPLES and where >= 0) {
-//  if (Range(0, MAX_NO_SAMPLES).isBetween(where)) {
+  if (Range(0, MAX_NO_SAMPLES-1).isBetween(where)) {
     samples_.at(where).left += what * panorama.left;
     samples_.at(where).right += what * panorama.right;
     return true;
@@ -28,12 +26,17 @@ bool Wave::write(const int where, const double& what, const Stereo & panorama = 
   return false;
 }
 
-
-
-void Wave::sine(const Box & box) {
+void Wave::sine(const Box & box, const Stereo & panorama) {
   box.width() * [&] (int i)  {
     double standardValue = sin( 2.0 * pi * i / box.width() );
-    write(box.getXRange().getBegin() + i, box.getYRange().getBegin() + box.height() * standardValue);
+    write(box.getXRange().getBegin() + i, box.getYRange().getBegin() + box.height() * standardValue, panorama);
+  };
+}
+
+void Wave::halfSine(const Box & box, const Stereo & panorama) {
+  box.width() * [&] (int i)  {
+    double standardValue = 1.0 + sin( 1.0 * pi *  (i / box.width() - 0.5 ) );
+    write(box.getXRange().getBegin() + i, box.getYRange().getBegin() + box.height() * standardValue, panorama);
   };
 }
 
@@ -42,8 +45,11 @@ void Wave::line(const Box & box, const Stereo & panorama) {
   const int   end = box.getXRange().max();    
 //TODO: opposite direction !?
 
+  double alpha = 1;
+  if (begin==end) 
+    alpha = box.getXRange().max() - box.getXRange().min();
   for (int tempWidth = 1 ; tempWidth<= end - begin; tempWidth++ ) 
-     write(begin + tempWidth, box.getYRange().getBegin() + box.height() * tempWidth / (end - begin), panorama);
+     write(begin + tempWidth, alpha * (box.getYRange().getBegin() + box.height() * tempWidth / (end - begin)), panorama);
 }
 
 void Wave::simpleSine(const double & maxAmplitude) {

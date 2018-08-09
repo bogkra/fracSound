@@ -1,5 +1,4 @@
 #include "WaveFile.hpp"
-#include "Incrementator.hpp"
 #include "FileHeader.hpp"
 
 using namespace std;
@@ -10,12 +9,14 @@ WaveFile::WaveFile(const std::string& fileName, Wave* pWave) {
   FileHeader fileHeader(this);  
   size_t dataChunkPos = file.tellp();
   writeDataChunkHeader(); 
-
   samplesToFile(*pWave);
-
   size_t positionAfterData = file.tellp();
   fixDataChunkHeader(dataChunkPos, positionAfterData);
   fixFileHeader(positionAfterData);
+}
+
+void WaveFile::writeDataChunkHeader() {
+  file << "data----";  
 }
 
 void WaveFile::samplesToFile(Wave& wave) {
@@ -25,14 +26,6 @@ void WaveFile::samplesToFile(Wave& wave) {
       writeWord(file, (int)(normalizedAmplitude.left * maxAmplitude), 2);         
       writeWord(file, (int)(normalizedAmplitude.right * maxAmplitude), 2);         
   }
-}
-
-void WaveFile::writeToFile(const int value, const unsigned size) {
-  writeWord(file, value, size);
-}
-
-void WaveFile::writeDataChunkHeader() {
-  file << "data----";  
 }
 
 void WaveFile::fixDataChunkHeader(const size_t dataChunkPos, const size_t positionAfterData) {
@@ -47,7 +40,6 @@ void WaveFile::fixFileHeader(const size_t positionAfterData) {
   file.close();
 }	
 
-
-
-
-
+void WaveFile::writeToFile(const int value, const unsigned size) {
+  writeWord(file, value, size);
+}
